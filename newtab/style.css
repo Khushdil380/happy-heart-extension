@@ -1,0 +1,106 @@
+/* newtab/style.css */
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: #fff; /* Default text color, assuming a dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #333; /* Default fallback background */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease, background-color 0.5s ease; /* Smooth background transitions */
+}
+
+#newtab-container {
+    display: grid;
+    /* This will be refined as we implement parts.
+       For now, a basic grid layout for general positioning */
+    grid-template-columns: 1fr 2fr 1fr; /* Example: left column, center content, right sidebar */
+    grid-template-rows: auto auto 1fr auto; /* Example: top widgets, search, main content, bottom */
+    gap: 20px;
+    padding: 20px;
+    width: 90%; /* Adjust as needed */
+    max-width: 1400px; /* Max width for larger screens */
+    box-sizing: border-box; /* Include padding in width */
+    position: relative; /* For absolutely positioned elements within */
+}
+
+/* Basic styling for all widgets */
+.widget {
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Placeholder for grid area, will be defined per widget or using more complex grid rules */
+}
+
+/* Specific grid areas for general placement based on your sketch */
+/* These will need adjustment as we build out individual components */
+#part6-clock {
+    grid-area: clock; /* Top-left */
+}
+#part2-searchbox {
+    grid-area: search; /* Center-top */
+}
+#part1-favicons {
+    grid-area: favicons; /* Below search or flexible */
+}
+#part3-bookmarks {
+    grid-area: bookmarks; /* Below favicons or flexible */
+}
+#part4-social {
+    grid-area: social; /* Often at the bottom or separate row */
+}
+#part7-weather {
+    grid-area: weather; /* Below clock */
+}
+#part8-notes {
+    grid-area: notes; /* Below weather */
+}
+#part9-sidebar {
+    grid-area: sidebar; /* Rightmost column */
+}
+#part10-timer {
+    grid-area: timer; /* Top-right for timer/stopwatch display */
+}
+#part5-customize {
+    grid-area: customize; /* Bottom-right or fixed position */
+    text-align: right;
+}
+
+/* Define grid template areas for initial layout based on your sketch */
+@media (min-width: 768px) {
+    #newtab-container {
+        grid-template-areas:
+            "clock      search      timer"
+            "weather    favicons    sidebar"
+            "notes      bookmarks   sidebar"
+            "social     social      customize"; /* This is a very rough interpretation */
+    }
+}
+
+#customize-button {
+    background-color: #ff69b4; /* Happy Heart color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+#customize-button:hover {
+    background-color: #ff85c1;
+}
+
+/* Utility classes for flexbox or other common layout needs if not using grid for everything */
+.flex-row { display: flex; flex-direction: row; }
+.flex-col { display: flex; flex-direction: column; }
+.justify-center { justify-content: center; }
+.align-center { align-items: center; }
+.gap-10 { gap: 10px; }

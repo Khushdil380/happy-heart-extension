@@ -1,0 +1,11 @@
+/* src/parts/part5-customize.css */
+
+#part5-customize {
+    /* Specific positioning if needed, overriding general widget styles */
+    position: fixed; /* Example: fixed position */
+    bottom: 20px;
+    right: 20px;
+    background-color: transparent; /* Make customization button background transparent */
+    box-shadow: none; /* Remove shadow */
+    padding: 0;
+}

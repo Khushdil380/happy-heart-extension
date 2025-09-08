@@ -1,0 +1,58 @@
+
+#part7-weather {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden; /* Add this */
+}
+
+#part7-weather .weather-content {
+    display: flex;
+    flex-direction: column;
+}
+
+#part7-weather .weather-settings-btn {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    opacity: 0;           /* Initially hidden */
+    transition: opacity 0.3s ease; /* Smooth transition */
+    z-index: 1;           /* Ensure button is above other content */
+}
+
+#part7-weather:hover .weather-settings-btn {
+    opacity: 1;           /* Visible on hover */
+}
+
+#part7-weather .weather-body {
+    text-align: center;
+}
+
+#part7-weather .weather-loading {
+    font-style: italic;
+    color: #666;
+}
+
+#part7-weather .weather-error {
+    color: red;
+}
+
+#part7-weather .weather-city-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+#part7-weather .weather-icon {
+    width: 30px;
+    height: 30px;
+}

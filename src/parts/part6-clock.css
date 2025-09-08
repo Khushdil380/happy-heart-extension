@@ -1,0 +1,18 @@
+/* src/parts/part6-clock.css */
+
+#part6-clock {
+    text-align: center;
+    font-size: 3em;
+    font-weight: bold;
+    color: white; /* Example color */
+}
+
+#part6-clock .time {
+    font-size: 1.5em;
+    letter-spacing: 2px;
+}
+
+#part6-clock .date {
+    font-size: 0.5em;
+    opacity: 0.8;
+}

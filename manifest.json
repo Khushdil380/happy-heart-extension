@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Happy Heart Theme",
+  "version": "1.0",
+  "description": "A customizable new tab experience with productivity features",
+  "permissions": [
+    "storage",
+    "bookmarks",
+    "tabs",
+    "geolocation",
+    "unlimitedStorage" 
+
+  ],
+  "chrome_url_overrides": {
+    "newtab": "newtab/index.html"
+  },
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  "options_page": "options/options.html",
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ]
+
+}
