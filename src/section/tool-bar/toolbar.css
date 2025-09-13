@@ -4,11 +4,11 @@
 
 .tool-bar {
   position: fixed;
-  bottom: var(--spacing-lg);
-  right: var(--spacing-lg);
+  bottom: var(--small-space);
+  right: var(--medium-space);
   display: flex;
   gap: var(--spacing-md);
-  background-color: var(--div-bg-color);
+  background-color: var(--section-bg-color);
   z-index: var(--z-fixed);
   animation: slideIn 0.5s ease-out;
 }
@@ -16,18 +16,18 @@
 .tool-item {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: var(--spacing-md);
-  background: var(--glass-bg);
+  align-items: center;  
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   cursor: pointer;
   transition: all var(--transition-normal);
-  min-width: 80px;
+  min-width: 50px;
   position: relative;
   overflow: hidden;
+  
+  background-color: var(--element-bg-color);
 }
 
 .tool-item::before {
@@ -106,99 +106,7 @@
 .tool-item:nth-child(3) { animation-delay: 0.3s; }
 .tool-item:nth-child(4) { animation-delay: 0.4s; }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .tool-bar {
-    bottom: var(--spacing-md);
-    right: var(--spacing-md);
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: calc(100vw - 2 * var(--spacing-md));
-  }
-  
-  .tool-item {
-    min-width: 70px;
-    padding: var(--spacing-sm);
-  }
-  
-  .tool-icon {
-    font-size: var(--font-size-xl);
-  }
-  
-  .tool-label {
-    font-size: 0.7rem;
-  }
-}
 
-@media (max-width: 480px) {
-  .tool-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    justify-content: space-around;
-    border-radius: 0;
-    padding: var(--spacing-sm);
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-top: 1px solid var(--glass-border);
-  }
-  
-  .tool-item {
-    min-width: 60px;
-    padding: var(--spacing-xs);
-    border-radius: var(--radius-md);
-  }
-  
-  .tool-icon {
-    font-size: var(--font-size-lg);
-    margin-bottom: 2px;
-  }
-  
-  .tool-label {
-    font-size: 0.6rem;
-  }
-}
 
-/* Dark mode adjustments */
-@media (prefers-color-scheme: dark) {
-  .tool-item {
-    background: rgba(28, 29, 29, 0.9);
-  }
-  
-  .tool-item:hover {
-    background: rgba(28, 29, 29, 0.95);
-  }
-}
 
-/* High contrast mode */
-@media (prefers-contrast: high) {
-  .tool-item {
-    border-width: 2px;
-    border-color: var(--primary-text-color);
-  }
-  
-  .tool-item:hover {
-    border-color: var(--secondary-text-color);
-  }
-}
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .tool-item {
-    transition: none;
-  }
-  
-  .tool-item:hover {
-    transform: none;
-  }
-  
-  .tool-icon {
-    transition: none;
-  }
-  
-  .tool-item:hover .tool-icon {
-    transform: none;
-  }
-}

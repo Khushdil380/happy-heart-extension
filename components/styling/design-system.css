@@ -5,11 +5,24 @@
 /* CSS Custom Properties (Variables) */
 :root {
     /* Colors */
-    /* div color */
-  --primary-bg-color: #fc6b0b;
-  --div-bg-color: #fc6b0b;
+    /* --section-bg-color */
+  --section-bg-color: #33fc0b;
 
-  --secondary-bg-color: #1c1d1d;
+  /* sub-section background color */
+  --sub-section-bg-color: #e40510;
+
+  /* element background color */
+  --element-bg-color: #0505e4;
+
+  /* input-box-color*/
+  --input-box-color: #c50efd;
+
+  
+  /* Spacing*/
+  --zero-space: 0px;
+  --small-space: 5px;
+  --medium-space: 8px;
+  --large-space: 12px;
 
   
   --button-bg-color: #dc143c;

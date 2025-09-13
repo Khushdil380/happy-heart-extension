@@ -4,10 +4,10 @@
 
 .vertical-right-bar {
   position: fixed;
-  right: var(--spacing-xs); /* margin from right side of the screen */
+  right: var(--small-space); 
   top: 50%;
   transform: translateY(-50%);
-  background-color: var(--div-bg-color);
+  background-color: var(--section-bg-color);
   z-index: var(--z-fixed);
   animation: slideIn 0.5s ease-out;
 } 
@@ -22,8 +22,6 @@
 .shortcut-btn {
   width: 50px;
   height: 50px;
-  /* background-color: blue; */
-  background: var(--glass-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   /* border: 1px solid var(--glass-border); */
@@ -35,6 +33,7 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
+  background-color: var(--element-bg-color);
 }
 
 .shortcut-btn::before {

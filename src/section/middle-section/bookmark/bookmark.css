@@ -3,9 +3,10 @@
    ======================================== */
 
 .bookmarks {
-  padding: var(--spacing-sm);
+  padding: var(--medium-space);
   animation: fadeIn 0.5s ease-out 0.2s both;
   position: relative;
+  background-color: var(--sub-section-bg-color);
   z-index: 1;
 }
 

@@ -15,7 +15,7 @@
   z-index: var(--z-fixed);
   
   animation: fadeIn 0.5s ease-out;
-  background-color: var(--primary-bg-color);
+  background-color: var(--section-bg-color);
 }
 
 /* Top Websites */
