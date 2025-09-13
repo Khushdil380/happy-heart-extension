@@ -4,26 +4,28 @@
 
 .vertical-right-bar {
   position: fixed;
-  right: var(--spacing-lg);
+  right: var(--spacing-xs); /* margin from right side of the screen */
   top: 50%;
   transform: translateY(-50%);
   z-index: var(--z-fixed);
   animation: slideIn 0.5s ease-out;
-}
+} 
 
 .browser-shortcuts {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
+
 }
 
 .shortcut-btn {
   width: 50px;
   height: 50px;
+  /* background-color: blue; */
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
+  /* border: 1px solid var(--glass-border); */
   border-radius: var(--radius-lg);
   cursor: pointer;
   transition: all var(--transition-normal);
@@ -63,7 +65,7 @@
 
 .shortcut-btn.clicked {
   transform: scale(0.95);
-  background: var(--button-bg-color);
+  /* background: var(--button-bg-color); */
   border-color: var(--button-hover-bg-color);
   box-shadow: 0 0 20px rgba(220, 20, 60, 0.5);
 }
@@ -87,7 +89,7 @@
   right: 100%;
   top: 50%;
   transform: translateY(-50%);
-  background: var(--secondary-bg-color);
+  /* background: var(--secondary-bg-color); */
   color: var(--primary-text-color);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-sm);
@@ -97,6 +99,7 @@
   margin-right: var(--spacing-sm);
   border: 1px solid var(--glass-border);
   box-shadow: 0 4px 12px var(--shadow-color);
+  background-color: blue;
 }
 
 /* Animation delays for staggered appearance */
@@ -107,51 +110,4 @@
 .shortcut-btn:nth-child(5) { animation-delay: 0.5s; }
 .shortcut-btn:nth-child(6) { animation-delay: 0.6s; }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .vertical-right-bar {
-    display: none;
-  }
-}
 
-/* Dark mode adjustments */
-@media (prefers-color-scheme: dark) {
-  .shortcut-btn {
-    background: rgba(28, 29, 29, 0.9);
-  }
-  
-  .shortcut-btn:hover {
-    background: rgba(28, 29, 29, 0.95);
-  }
-}
-
-/* High contrast mode */
-@media (prefers-contrast: high) {
-  .shortcut-btn {
-    border-width: 2px;
-    border-color: var(--primary-text-color);
-  }
-  
-  .shortcut-btn:hover {
-    border-color: var(--secondary-text-color);
-  }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .shortcut-btn {
-    transition: none;
-  }
-  
-  .shortcut-btn:hover {
-    transform: none;
-  }
-  
-  .shortcut-icon {
-    transition: none;
-  }
-  
-  .shortcut-btn:hover .shortcut-icon {
-    transform: none;
-  }
-}

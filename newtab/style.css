@@ -15,6 +15,8 @@
 @import url('../src/section/tool-bar/games/games.css');
 @import url('../src/section/tool-bar/file-converter/file-converter.css');
 
+
+
 /* Background Container */
 .background-container {
   position: fixed;
@@ -23,7 +25,23 @@
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  transition: all var(--transition-slow);
+ 
+}
+
+
+/* ========================================
+   GLOBAL STYLES
+  ======================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: var(--font-family);
+  color: var(--primary-text-color);
 }
 
 
@@ -31,36 +49,3 @@
 
 
 
-
-
-/* Global Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Global utility classes */
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out;
-}
-
-.animate-slide-in {
-  animation: slideIn 0.5s ease-out;
-}

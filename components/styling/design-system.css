@@ -4,16 +4,22 @@
 
 /* CSS Custom Properties (Variables) */
 :root {
-  /* Primary Colors */
-  --primary-bg-color: #000814;
+    /* Colors */
+    /* div color */
+  --primary-bg-color: #fc6b0b;
+  --div-bg-color: #fc6b0b;
+
   --secondary-bg-color: #1c1d1d;
+
+  
   --button-bg-color: #dc143c;
   --button-hover-bg-color: #ff002e;
   --primary-text-color: #ffffff;
   --secondary-text-color: #05ffee;
   
   /* Derived Colors */
-  --glass-bg: rgba(28, 29, 29, 0.8);
+  /* --glass-bg: rgba(28, 29, 29, 0.8); */
+  --glass-bg: rgba(42, 233, 233, 0.8);
   --glass-border: rgba(204, 34, 34, 0.1);
   --shadow-color: rgba(0, 0, 0, 0.3);
   --hover-overlay: rgba(220, 20, 60, 0.1);
@@ -58,23 +64,6 @@
   --z-tooltip: 1070;
 }
 
-/* ========================================
-   GLOBAL STYLES
-   ======================================== */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  font-family: var(--font-family);
-  background-color: var(--primary-bg-color);
-  color: var(--primary-text-color);
-  line-height: 1.6;
-  overflow-x: hidden;
-}
 
 /* ========================================
    GLASSMORPHISM COMPONENTS
