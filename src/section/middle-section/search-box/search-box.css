@@ -3,12 +3,12 @@
    ======================================== */
 
 .search-box {
-  padding: 8px;
+  padding: var(--zero-space);
   display: flex;
   align-items: center;
-  gap: 2px;
   animation: fadeIn 0.5s ease-out 0.1s both;
   position: relative;
+  background-color: var(--input-box-color);
 }
 
 .search-engine-selector {
@@ -19,7 +19,6 @@
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md) 0 0 var(--radius-md);
-  padding: var(--spacing-sm);
   cursor: pointer;
   transition: all var(--transition-normal);
   position: relative;
@@ -81,7 +80,6 @@
 .search-input {
   flex: 1;
   font-size: var(--font-size-base);
-  padding: var(--spacing-md);
   height: 50px;
   transition: all var(--transition-normal);
   border-radius: 0;
@@ -197,8 +195,6 @@
 .search-engine-option {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md);
   cursor: pointer;
   transition: all var(--transition-fast);
   color: var(--primary-text-color);
@@ -236,47 +232,4 @@
   display: flex;
   justify-content: center;
   gap: var(--spacing-md);
-}
-
-/* Dark mode adjustments */
-@media (prefers-color-scheme: dark) {
-  .search-engine-btn {
-    background: rgba(28, 29, 29, 0.9);
-  }
-  
-  .search-engine-option {
-    background: rgba(28, 29, 29, 0.9);
-  }
-}
-
-/* High contrast mode */
-@media (prefers-contrast: high) {
-  .search-engine-btn,
-  .search-input {
-    border-width: 2px;
-    border-color: var(--primary-text-color);
-  }
-  
-  .search-engine-btn:hover,
-  .search-input:focus {
-    border-color: var(--secondary-text-color);
-  }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .search-engine-btn,
-  .search-input,
-  .search-btn {
-    transition: none;
-  }
-  
-  .search-engine-btn:hover,
-  .search-btn:hover {
-    transform: none;
-  }
-  
-  .search-input:focus {
-    transform: none;
-  }
 }
