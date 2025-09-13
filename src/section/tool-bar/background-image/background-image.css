@@ -1,0 +1,231 @@
+/* ========================================
+   BACKGROUND IMAGE TOOL STYLES
+   ======================================== */
+
+.background-popup-content {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--spacing-lg);
+  height: 100%;
+  max-height: 80vh;
+  overflow: hidden;
+}
+
+.background-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--glass-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.option-item:hover {
+  background: var(--hover-overlay);
+  border-color: var(--glass-border);
+}
+
+.option-item.active {
+  background: var(--button-bg-color);
+  border-color: var(--button-hover-bg-color);
+  color: var(--primary-text-color);
+}
+
+.option-icon {
+  font-size: var(--font-size-lg);
+  width: 24px;
+  text-align: center;
+}
+
+.option-label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.background-preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  overflow: hidden;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--glass-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.preview-item {
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.preview-item:hover {
+  transform: scale(1.05);
+  border-color: var(--secondary-text-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.preview-item.selected {
+  border-color: var(--button-bg-color);
+  box-shadow: 0 0 0 2px var(--button-bg-color);
+}
+
+.color-item {
+  border: 1px solid var(--glass-border);
+}
+
+.gradient-item {
+  border: 1px solid var(--glass-border);
+}
+
+.image-item {
+  border: 1px solid var(--glass-border);
+}
+
+.upload-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass-bg);
+  border: 2px dashed var(--glass-border);
+  color: var(--primary-text-color);
+  gap: var(--spacing-xs);
+}
+
+.upload-item:hover {
+  border-color: var(--secondary-text-color);
+  background: var(--hover-overlay);
+}
+
+.upload-icon {
+  font-size: var(--font-size-lg);
+}
+
+.upload-text {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+.background-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  padding: var(--spacing-md);
+  background: var(--glass-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+}
+
+.background-actions .glass-button {
+  min-width: 120px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .background-popup-content {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    gap: var(--spacing-md);
+  }
+  
+  .background-options {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: var(--spacing-sm);
+  }
+  
+  .option-item {
+    min-width: 120px;
+    flex-shrink: 0;
+  }
+  
+  .preview-grid {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm);
+  }
+  
+  .background-actions {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .background-actions .glass-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .background-options {
+    flex-direction: column;
+    overflow-x: visible;
+  }
+  
+  .option-item {
+    min-width: auto;
+  }
+  
+  .preview-grid {
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .background-options,
+  .background-preview,
+  .preview-grid,
+  .background-actions {
+    background: rgba(28, 29, 29, 0.9);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .option-item,
+  .preview-item {
+    border-width: 2px;
+  }
+  
+  .option-item.active {
+    border-width: 3px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .option-item,
+  .preview-item {
+    transition: none;
+  }
+  
+  .preview-item:hover {
+    transform: none;
+  }
+}

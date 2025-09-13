@@ -1,0 +1,56 @@
+/**
+ * SNAKE GAME STYLES
+ * Consistent styling for the snake game
+ */
+
+#game-canvas.snake-game {
+  width: 600px;
+  height: 500px;
+  border: 2px solid var(--secondary-text-color);
+  background: var(--primary-bg-color);
+  box-shadow: 0 0 20px rgba(5, 255, 238, 0.3);
+}
+
+.snake-game-info {
+  color: var(--secondary-text-color);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.snake-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.snake-control-btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--secondary-bg-color);
+  border: 1px solid var(--button-bg-color);
+  border-radius: var(--border-radius-sm);
+  color: var(--primary-text-color);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.snake-control-btn:hover {
+  background: var(--button-bg-color);
+  color: var(--primary-text-color);
+}
+
+.snake-control-btn.active {
+  background: var(--button-bg-color);
+  color: var(--primary-text-color);
+}
+
+/* Responsive adjustments for snake game */
+@media (max-width: 768px) {
+  #game-canvas.snake-game {
+    width: 100%;
+    max-width: 500px;
+    height: 417px; /* Maintain 6:5 aspect ratio (600:500) */
+  }
+}

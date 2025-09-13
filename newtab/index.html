@@ -3,74 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy❤️</title> <!-- This sets the tab title -->
+    <title>Happy ❤️</title>
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="../components/styling/design-system.css">
+    
+    <!-- Main Styles -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="parts.css"> <!-- To import modular styles -->
+    
+    <!-- Section Styles -->
+    <link rel="stylesheet" href="../src/section/vertical-right-bar/vertical-right-bar.css">
+    <link rel="stylesheet" href="../src/section/tool-bar/toolbar.css">
+    <link rel="stylesheet" href="../src/section/middle-section/middle-section.css">
+    <link rel="stylesheet" href="../src/section/middle-section/search-box/search-box.css">
+    <link rel="stylesheet" href="../src/section/middle-section/top-website/top-website.css">
+    <link rel="stylesheet" href="../src/section/middle-section/bookmark/bookmark.css">
+    <link rel="stylesheet" href="../src/section/left-sidebar/left-sidebar.css">
 </head>
 <body>
-    <div id="newtab-container">
-
-        <!-- Left-hand productivity panel: Clock, Weather, Notes -->
-        <div id="left-panel" class="widget-panel">
-            <div id="left-panel-header">
-                <span class="edit-icon" id="left-panel-edit-icon" title="Customize Widgets">
-                    <!-- This will be an SVG or an icon font later --> ✏️
-                </span>
+    <!-- Background Container -->
+    <div id="background-container" class="background-container"></div>
+    
+    <!-- Left Sidebar -->
+    <div id="left-sidebar" class="left-sidebar">
+        <!-- Digital Watch -->
+        <div id="digital-watch" class="widget glass-card">
+            <div class="widget-content">
+                <div class="time-display" id="time-display">00:00:00</div>
+                <div class="date-display" id="date-display">Loading...</div>
             </div>
-            <!-- Part 6: Clock -->
-            <div id="part6-clock" class="widget clock-widget"></div>
-
-            <!-- Part 7: Weather -->
-            <div id="part7-weather" class="widget weather-widget"></div>
-
-            <!-- Part 8: Notes -->
-            <div id="part8-notes" class="widget notes-widget"></div>
         </div>
-
-
-        <!-- Part 6: Clock -->
-        <!-- <div id="part6-clock" class="widget clock-widget"></div> -->
-
-        <!-- Part 7: Weather -->
-        <!-- <div id="part7-weather" class="widget weather-widget"></div> -->
-
-        <!-- Part 8: Notes -->
-        <!-- <div id="part8-notes" class="widget notes-widget"></div> -->
-
-        <!-- Part 2: Search Box -->
-        <div id="part2-searchbox" class="widget searchbox-widget"></div>
-
-        <!-- Part 1: Favorite Websites -->
-        <div id="part1-favicons" class="widget favicons-widget"></div>
-
-        <!-- Part 3: Bookmarks -->
-        <div id="part3-bookmarks" class="widget bookmarks-widget"></div>
-
-        <!-- Part 4: Social Media Links -->
-        <div id="part4-social" class="widget social-widget"></div>
-
         
-
-        <!-- Part 9: Vertical Productivity Bar -->
-        <div id="part9-sidebar" class="widget sidebar-widget"></div>
-
-        <!-- Part 10: Timer/Stopwatch Display -->
-        <div id="part10-timer" class="widget timer-widget"></div>
-
-        <!-- Part 5: Customization Button (often at the bottom/side) -->
-        <div id="part5-customize" class="widget customize-widget">
-            <button id="customize-button">Customize</button>
+        <!-- Weather Widget -->
+        <div id="weather-widget" class="widget glass-card">
+            <div class="weather-header">
+                <h3>Weather</h3>
+                <div class="weather-controls">
+                    <button id="weather-refresh-btn" class="weather-refresh-btn" title="Refresh">🔄</button>
+                    <button id="weather-settings-btn" class="weather-settings-btn" title="Change City">⚙️</button>
+                </div>
+            </div>
+            <div class="widget-content">
+                <div class="weather-icon" id="weather-icon">🌤️</div>
+                <div class="weather-info">
+                    <div class="temperature" id="temperature">--°C</div>
+                    <div class="location" id="location">Loading...</div>
+                    <div class="weather-description" id="weather-description">--</div>
+                </div>
+            </div>
+            <div class="weather-loading" id="weather-loading" style="display: none;">
+                <div class="loading-spinner"></div>
+                <span>Loading...</span>
+            </div>
+        </div>
+        
+        <!-- Notes Widget -->
+        <div id="notes-widget" class="widget glass-card">
+            <div class="notes-header">
+                <h3>Notes</h3>
+                <div class="notes-controls">
+                    <button id="add-note-btn" class="notes-action-btn" title="Add Note">📝</button>
+                    <button id="view-notes-btn" class="notes-action-btn" title="View All Notes">📋</button>
+                </div>
+            </div>
+            <div class="widget-content">
+                <div class="notes-preview" id="notes-preview">
+                    <p>No notes yet</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quote Widget -->
+        <div id="quote-widget" class="widget glass-card">
+            <div class="widget-content">
+                <div class="quote-text" id="quote-text">
+                    "The only way to do great work is to love what you do."
+                </div>
+                <div class="quote-author" id="quote-author">- Steve Jobs</div>
+                <button id="edit-quote-btn" class="glass-button">Edit Quote</button>
+            </div>
         </div>
     </div>
-
-    <!-- Main script that loads all part-specific scripts -->
-    <script src="script.js" type="module"></script>
+    
+    <!-- Middle Section -->
+    <div id="middle-section" class="middle-section">
+        <!-- Top Websites -->
+        <div id="top-websites" class="top-websites glass-card">
+            <div class="section-header">
+                <h3>Top Websites</h3>
+                <button id="add-website-btn" class="glass-button">+ Add</button>
+            </div>
+            <div class="websites-grid" id="websites-grid">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+        
+        <!-- Search Box -->
+        <div id="search-box" class="search-box glass-card">
+            <div class="search-engine-selector">
+                <button id="search-engine-btn" class="search-engine-btn">
+                    <span id="search-engine-icon" class="engine-emoji">🔍</span>
+                </button>
+            </div>
+            <input type="text" id="search-input" class="glass-input search-input" placeholder="Search the web...">
+            <button id="search-btn" class="glass-button search-btn">🔍</button>
+        </div>
+        
+        <!-- Bookmarks -->
+        <div id="bookmarks" class="bookmarks glass-card">
+            <div class="bookmarks-header">
+                <div class="bookmarks-tabs" id="bookmarks-tabs">
+                    <!-- Dynamic folder tabs -->
+                </div>
+                <div class="bookmarks-actions">
+                    <button id="add-folder-btn" class="glass-button bookmark-action-btn" title="Add Folder">📁</button>
+                    <button id="add-bookmark-btn" class="glass-button bookmark-action-btn" title="Add Bookmark">🔖</button>
+                </div>
+            </div>
+            <div class="bookmarks-content" id="bookmarks-content">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tool Bar -->
+    <div id="tool-bar" class="tool-bar">
+        <!-- Background Image Tool -->
+        <div class="tool-item" id="background-tool">
+            <div class="tool-icon">🎨</div>
+            <div class="tool-label">Background</div>
+        </div>
+        
+        <!-- File Converter Tool -->
+        <div class="tool-item" id="file-converter-tool">
+            <div class="tool-icon">📁</div>
+            <div class="tool-label">Converter</div>
+        </div>
+        
+        <!-- Games Tool -->
+        <div class="tool-item" id="games-tool">
+            <div class="tool-icon">🎮</div>
+            <div class="tool-label">Games</div>
+        </div>
+        
+        <!-- Calculator Tool -->
+        <div class="tool-item" id="calculator-tool">
+            <div class="tool-icon">🧮</div>
+            <div class="tool-label">Calculator</div>
+        </div>
+    </div>
+    
+    <!-- Vertical Right Bar -->
+    <div id="vertical-right-bar" class="vertical-right-bar">
+        <div class="browser-shortcuts">
+            <button class="shortcut-btn" data-action="downloads" title="Downloads">
+                <div class="shortcut-icon">📥</div>
+            </button>
+            <button class="shortcut-btn" data-action="history" title="History">
+                <div class="shortcut-icon">🕒</div>
+            </button>
+            <button class="shortcut-btn" data-action="bookmarks" title="Bookmarks">
+                <div class="shortcut-icon">🔖</div>
+            </button>
+            <button class="shortcut-btn" data-action="settings" title="Settings">
+                <div class="shortcut-icon">⚙️</div>
+            </button>
+            <button class="shortcut-btn" data-action="extensions" title="Extensions">
+                <div class="shortcut-icon">🧩</div>
+            </button>
+            <button class="shortcut-btn" data-action="newtab" title="New Tab">
+                <div class="shortcut-icon">➕</div>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script type="module" src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-

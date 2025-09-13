@@ -1,0 +1,408 @@
+/* Calculator and Unit Converter - Clean CSS from Scratch */
+
+.calculator-popup-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--primary-bg-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* ===== TABS ===== */
+.calculator-tabs {
+  display: flex;
+  background: var(--secondary-bg-color);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 0;
+  margin: 0;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: transparent;
+  border: none;
+  color: var(--secondary-text-color);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-btn:hover {
+  color: var(--primary-text-color);
+}
+
+.tab-btn.active {
+  color: var(--primary-text-color);
+  border-bottom-color: var(--secondary-text-color);
+}
+
+/* ===== CALCULATOR CONTENT ===== */
+.calculator-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-md);
+  gap: var(--spacing-md);
+  overflow: hidden;
+}
+
+/* Display */
+.calculator-display {
+  background: var(--secondary-bg-color);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.display-expression {
+  font-size: var(--font-size-sm);
+  color: var(--secondary-text-color);
+  text-align: right;
+  min-height: 20px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.display-result {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-text-color);
+  text-align: right;
+  word-break: break-all;
+  line-height: 1.2;
+}
+
+/* Button Grids */
+.calculator-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-xs);
+  flex: 1;
+  max-height: 280px;
+  overflow: hidden;
+}
+
+.calculator-advanced {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+  flex-shrink: 0;
+  max-height: 80px;
+  overflow: hidden;
+}
+
+/* Buttons */
+.calc-btn {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  background: var(--secondary-bg-color);
+  color: var(--primary-text-color);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  user-select: none;
+}
+
+.calc-btn:hover {
+  background: var(--glass-bg);
+}
+
+.calc-btn:active {
+  background: var(--button-bg-color);
+  color: white;
+}
+
+/* Button Types */
+.calc-btn.number {
+  background: var(--primary-bg-color);
+  font-weight: 600;
+}
+
+.calc-btn.operator {
+  background: var(--button-bg-color);
+  color: white;
+  font-weight: 600;
+}
+
+.calc-btn.operator:hover {
+  background: var(--button-hover-bg-color);
+}
+
+.calc-btn.function {
+  background: var(--glass-bg);
+  color: var(--secondary-text-color);
+}
+
+.calc-btn.advanced {
+  background: var(--glass-bg);
+  color: var(--secondary-text-color);
+  font-size: var(--font-size-xs);
+  min-height: 30px;
+}
+
+.calc-btn.equals {
+  background: var(--button-bg-color);
+  color: white;
+  font-weight: 600;
+  font-size: var(--font-size-base);
+}
+
+.calc-btn.equals:hover {
+  background: var(--button-hover-bg-color);
+}
+
+/* Special button styling */
+.calc-btn[data-action="0"] {
+  grid-column: span 2;
+}
+
+/* ===== UNIT CONVERTER CONTENT ===== */
+.converter-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-lg);
+  gap: var(--spacing-lg);
+  overflow: hidden;
+}
+
+/* Category Selector */
+.converter-categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.category-btn {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--secondary-bg-color);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--secondary-text-color);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-btn:hover {
+  background: var(--glass-bg);
+  color: var(--primary-text-color);
+}
+
+.category-btn.active {
+  background: var(--button-bg-color);
+  color: white;
+  border-color: var(--button-bg-color);
+}
+
+/* Converter Form */
+.converter-form {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  flex: 1;
+  justify-content: center;
+}
+
+.converter-input,
+.converter-output {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  min-width: 200px;
+}
+
+.glass-input {
+  padding: var(--spacing-md);
+  background: var(--secondary-bg-color);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--primary-text-color);
+  font-size: var(--font-size-base);
+  transition: border-color 0.2s ease;
+  pointer-events: auto;
+  user-select: text;
+  cursor: text;
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: var(--button-bg-color);
+}
+
+.glass-select {
+  padding: var(--spacing-md);
+  background: var(--secondary-bg-color);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--primary-text-color);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.glass-select:focus {
+  outline: none;
+  border-color: var(--button-bg-color);
+}
+
+.converter-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swap-btn {
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  background: var(--secondary-bg-color);
+  color: var(--primary-text-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swap-btn:hover {
+  background: var(--button-bg-color);
+  color: white;
+  border-color: var(--button-bg-color);
+  transform: rotate(180deg);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .calculator-content {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+  }
+  
+  .calculator-buttons {
+    gap: var(--spacing-xs);
+    max-height: 240px;
+  }
+  
+  .calculator-advanced {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-xs);
+    max-height: 100px;
+  }
+  
+  .calc-btn {
+    min-height: 35px;
+    font-size: var(--font-size-xs);
+  }
+  
+  .calc-btn.advanced {
+    min-height: 25px;
+    font-size: var(--font-size-xs);
+  }
+  
+  .display-result {
+    font-size: 1.2rem;
+  }
+  
+  .converter-form {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .converter-input,
+  .converter-output {
+    min-width: 100%;
+  }
+  
+  .converter-categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .calculator-buttons {
+    grid-template-columns: repeat(3, 1fr);
+    max-height: 180px;
+  }
+  
+  .calculator-advanced {
+    grid-template-columns: repeat(3, 1fr);
+    max-height: 80px;
+  }
+  
+  .calc-btn {
+    min-height: 30px;
+  }
+  
+  .calc-btn.advanced {
+    min-height: 25px;
+  }
+  
+  .display-result {
+    font-size: 1rem;
+  }
+  
+  .converter-categories {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== ANIMATIONS ===== */
+.calc-btn.pressed {
+  background: var(--button-bg-color);
+  color: white;
+}
+
+/* ===== ACCESSIBILITY ===== */
+.calc-btn:focus,
+.tab-btn:focus,
+.category-btn:focus,
+.glass-input:focus,
+.glass-select:focus,
+.swap-btn:focus {
+  outline: 1px solid var(--button-bg-color);
+  outline-offset: 1px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .calc-btn {
+    border-width: 2px;
+  }
+  
+  .tab-btn.active {
+    border-bottom-width: 4px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .calc-btn,
+  .tab-btn,
+  .category-btn,
+  .swap-btn {
+    transition: none;
+  }
+  
+  .swap-btn:hover {
+    transform: none;
+  }
+}

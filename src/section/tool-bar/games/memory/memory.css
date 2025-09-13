@@ -1,0 +1,65 @@
+/**
+ * MEMORY GAME STYLES
+ * Consistent styling for the memory game
+ */
+
+#game-canvas.memory-game {
+  border: 2px solid #ff6b6b;
+  background: var(--primary-bg-color);
+  box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+}
+
+.memory-game-info {
+  color: var(--secondary-text-color);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.memory-game-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background: var(--secondary-bg-color);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid #ff6b6b;
+}
+
+.memory-game-stat {
+  text-align: center;
+}
+
+.memory-game-stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--secondary-text-color);
+  margin-bottom: var(--spacing-xs);
+}
+
+.memory-game-stat-value {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--primary-text-color);
+}
+
+.memory-game-stat-value.moves {
+  color: #ff6b6b;
+}
+
+.memory-game-stat-value.pairs {
+  color: var(--secondary-text-color);
+}
+
+/* Responsive adjustments for memory game */
+@media (max-width: 768px) {
+  #game-canvas.memory-game {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+  
+  .memory-game-stats {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+}

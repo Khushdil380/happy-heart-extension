@@ -1,0 +1,67 @@
+/**
+ * TIC-TAC-TOE GAME STYLES
+ * Consistent styling for the tic-tac-toe game
+ */
+
+#game-canvas.tic-tac-toe-game {
+  width: 600px;
+  height: 500px;
+  border: 2px solid var(--button-bg-color);
+  background: var(--primary-bg-color);
+  box-shadow: 0 0 20px rgba(220, 20, 60, 0.3);
+}
+
+.tic-tac-toe-game-info {
+  color: var(--secondary-text-color);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.tic-tac-toe-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background: var(--secondary-bg-color);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--button-bg-color);
+}
+
+.tic-tac-toe-stat {
+  text-align: center;
+}
+
+.tic-tac-toe-stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--secondary-text-color);
+  margin-bottom: var(--spacing-xs);
+}
+
+.tic-tac-toe-stat-value {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--primary-text-color);
+}
+
+.tic-tac-toe-stat-value.x-wins {
+  color: var(--button-bg-color);
+}
+
+.tic-tac-toe-stat-value.o-wins {
+  color: var(--secondary-text-color);
+}
+
+/* Responsive adjustments for tic-tac-toe game */
+@media (max-width: 768px) {
+  #game-canvas.tic-tac-toe-game {
+    width: 100%;
+    max-width: 500px;
+    height: 417px; /* Maintain 6:5 aspect ratio (600:500) */
+  }
+  
+  .tic-tac-toe-stats {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+}
