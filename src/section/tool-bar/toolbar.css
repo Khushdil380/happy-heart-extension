@@ -8,6 +8,7 @@
   right: var(--spacing-lg);
   display: flex;
   gap: var(--spacing-md);
+  background-color: var(--div-bg-color);
   z-index: var(--z-fixed);
   animation: slideIn 0.5s ease-out;
 }

@@ -7,6 +7,7 @@
   right: var(--spacing-xs); /* margin from right side of the screen */
   top: 50%;
   transform: translateY(-50%);
+  background-color: var(--div-bg-color);
   z-index: var(--z-fixed);
   animation: slideIn 0.5s ease-out;
 } 

@@ -13,6 +13,7 @@
   gap: var(--spacing-md);
   z-index: var(--z-fixed);
   animation: slideIn 0.5s ease-out;
+  background-color: var(--div-bg-color);
 }
 
 .left-sidebar .widget {
