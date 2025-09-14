@@ -38,6 +38,7 @@
       "resources": [
         "assets/images/*",
         "assets/icons/*",
+        "assets/components/*",
         "components/*",
         "src/*"
       ],

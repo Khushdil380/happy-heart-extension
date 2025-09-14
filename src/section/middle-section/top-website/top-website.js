@@ -3,7 +3,7 @@
  * Manages the top websites section
  */
 
-import { popupManager } from '../../../../components/Popup/popup-manager.js';
+import { popupManager } from '../../../../assets/components/Popup/popup-manager.js';
 import { getStoredData, setStoredData } from '../../../../src/utils/storage.js';
 import { Validator } from '../../../../src/utils/validation.js';
 
@@ -43,13 +43,13 @@ class TopWebsite {
   }
 
   setupEventListeners() {
-    const addWebsiteBtn = document.getElementById('add-website-btn');
+    const addWebsitePlus = document.getElementById('add-website-plus');
     const websitesGrid = document.getElementById('websites-grid');
     
-    if (!addWebsiteBtn || !websitesGrid) return;
+    if (!addWebsitePlus || !websitesGrid) return;
 
-    // Add website button
-    addWebsiteBtn.addEventListener('click', () => {
+    // Add website plus icon
+    addWebsitePlus.addEventListener('click', () => {
       this.openAddWebsiteModal();
     });
 
@@ -102,10 +102,17 @@ class TopWebsite {
           <input type="url" id="website-url" class="glass-input" placeholder="https://example.com" required>
         </div>
         <div class="form-group">
-          <label for="website-icon">Icon URL (optional):</label>
-          <input type="url" id="website-icon" class="glass-input" placeholder="Leave empty for auto-generated favicon">
-          <small style="color: #888; font-size: 12px; margin-top: 4px; display: block;">
-            💡 Leave empty and we'll automatically fetch the website's favicon
+          <label for="website-icon-upload">Icon (optional):</label>
+          <div class="icon-upload-section">
+            <input type="file" id="website-icon-upload" accept="image/*" style="display: none;">
+            <button type="button" id="upload-icon-btn" class="glass-button">📁 Upload Icon</button>
+            <div id="icon-preview" class="icon-preview" style="display: none;">
+              <img id="preview-image" src="" alt="Icon Preview" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+              <span id="remove-icon" style="cursor: pointer; margin-left: 8px; color: #ff4444;">✕</span>
+            </div>
+          </div>
+          <small style="color: var(--secondary-text-color); font-size: 12px; margin-top: 4px; display: block;">
+            💡 Upload a custom icon or leave empty for auto-generated favicon
           </small>
         </div>
         <div class="form-actions">
@@ -117,7 +124,7 @@ class TopWebsite {
 
     const popup = popupManager.createPopup('Add Top Website', content, {
       id: 'add-website-popup',
-      size: 'medium'
+      size: 'small'
     });
 
     popupManager.openPopup(popup);
@@ -126,17 +133,54 @@ class TopWebsite {
     const popupBody = popup.body;
     const saveBtn = popupBody.querySelector('#save-website-btn');
     const cancelBtn = popupBody.querySelector('#cancel-website-btn');
+    const uploadBtn = popupBody.querySelector('#upload-icon-btn');
+    const fileInput = popupBody.querySelector('#website-icon-upload');
+    const iconPreview = popupBody.querySelector('#icon-preview');
+    const previewImage = popupBody.querySelector('#preview-image');
+    const removeIcon = popupBody.querySelector('#remove-icon');
+
+    let uploadedIconData = null;
+
+    // File upload handling
+    uploadBtn.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          uploadedIconData = e.target.result;
+          previewImage.src = uploadedIconData;
+          iconPreview.style.display = 'flex';
+          iconPreview.style.alignItems = 'center';
+          uploadBtn.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    removeIcon.addEventListener('click', () => {
+      uploadedIconData = null;
+      iconPreview.style.display = 'none';
+      uploadBtn.style.display = 'block';
+      fileInput.value = '';
+    });
 
     saveBtn.addEventListener('click', async () => {
       const title = popupBody.querySelector('#website-title').value.trim();
       const url = popupBody.querySelector('#website-url').value.trim();
-      const icon = popupBody.querySelector('#website-icon').value.trim() || '../images/default-icon.png';
       
       // Validate website data
-      const validation = Validator.validateWebsite({ title, url, icon });
+      const validation = Validator.validateWebsite({ title, url, icon: '' });
       
       if (validation.isValid) {
-        await this.saveTopWebsite(validation.sanitizedValue);
+        const websiteData = {
+          ...validation.sanitizedValue,
+          icon: uploadedIconData || null // Will be auto-fetched if null
+        };
+        await this.saveTopWebsite(websiteData);
         popupManager.closePopup(popup);
         await this.loadTopWebsites();
       } else {
@@ -157,10 +201,12 @@ class TopWebsite {
       return;
     }
 
-    // Auto-generate favicon if not provided
+    // Handle icon - either use uploaded data or fetch favicon
     let icon = website.icon;
-    if (!icon || icon === '../images/default-icon.png') {
+    if (!icon) {
+      // Auto-generate favicon and store locally
       icon = await this.getFaviconUrl(website.url);
+      icon = await this.storeIconLocally(icon, website.url);
     }
 
     websites.push({ 
@@ -246,10 +292,17 @@ class TopWebsite {
           <input type="url" id="website-url" class="glass-input" value="${website.url}" required>
         </div>
         <div class="form-group">
-          <label for="website-icon">Icon URL:</label>
-          <input type="url" id="website-icon" class="glass-input" value="${website.icon}">
-          <small style="color: #888; font-size: 12px; margin-top: 4px; display: block;">
-            💡 Leave empty and we'll automatically fetch the website's favicon
+          <label for="website-icon-upload">Icon (optional):</label>
+          <div class="icon-upload-section">
+            <input type="file" id="website-icon-upload" accept="image/*" style="display: none;">
+            <button type="button" id="upload-icon-btn" class="glass-button">📁 Upload Icon</button>
+            <div id="icon-preview" class="icon-preview">
+              <img id="preview-image" src="${website.icon}" alt="Current Icon" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+              <span id="remove-icon" style="cursor: pointer; margin-left: 8px; color: #ff4444;">✕</span>
+            </div>
+          </div>
+          <small style="color: var(--secondary-text-color); font-size: 12px; margin-top: 4px; display: block;">
+            💡 Upload a custom icon or keep current icon
           </small>
         </div>
         <div class="form-actions">
@@ -261,7 +314,7 @@ class TopWebsite {
 
     const popup = popupManager.createPopup('Edit Website', content, {
       id: 'edit-website-popup',
-      size: 'medium'
+      size: 'small'
     });
 
     popupManager.openPopup(popup);
@@ -270,17 +323,56 @@ class TopWebsite {
     const popupBody = popup.body;
     const updateBtn = popupBody.querySelector('#update-website-btn');
     const cancelBtn = popupBody.querySelector('#cancel-website-btn');
+    const uploadBtn = popupBody.querySelector('#upload-icon-btn');
+    const fileInput = popupBody.querySelector('#website-icon-upload');
+    const iconPreview = popupBody.querySelector('#icon-preview');
+    const previewImage = popupBody.querySelector('#preview-image');
+    const removeIcon = popupBody.querySelector('#remove-icon');
+
+    let uploadedIconData = null;
+    let hasIconChanged = false;
+
+    // File upload handling
+    uploadBtn.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          uploadedIconData = e.target.result;
+          previewImage.src = uploadedIconData;
+          hasIconChanged = true;
+          uploadBtn.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    removeIcon.addEventListener('click', () => {
+      uploadedIconData = null;
+      hasIconChanged = true;
+      // Hide preview and show upload button
+      iconPreview.style.display = 'none';
+      uploadBtn.style.display = 'block';
+      fileInput.value = '';
+    });
 
     updateBtn.addEventListener('click', async () => {
       const title = popupBody.querySelector('#website-title').value.trim();
       const url = popupBody.querySelector('#website-url').value.trim();
-      const icon = popupBody.querySelector('#website-icon').value.trim() || '../images/default-icon.png';
       
       // Validate website data
-      const validation = Validator.validateWebsite({ title, url, icon });
+      const validation = Validator.validateWebsite({ title, url, icon: '' });
       
       if (validation.isValid) {
-        await this.updateWebsite(websiteId, validation.sanitizedValue);
+        const websiteData = {
+          ...validation.sanitizedValue,
+          icon: uploadedIconData || (hasIconChanged ? null : website.icon)
+        };
+        await this.updateWebsite(websiteId, websiteData);
         popupManager.closePopup(popup);
         await this.loadTopWebsites();
       } else {
@@ -298,17 +390,20 @@ class TopWebsite {
     const index = websites.findIndex(w => w.id === websiteId);
     
     if (index !== -1) {
-      // Auto-generate favicon if URL changed or icon is default
+      // Handle icon updates
       let icon = updatedWebsite.icon;
-      if ((updatedWebsite.url && updatedWebsite.url !== websites[index].url) || 
-          !icon || icon === '../images/default-icon.png') {
+      
+      // If icon is null (removed) or URL changed, fetch new favicon
+      if (!icon || (updatedWebsite.url && updatedWebsite.url !== websites[index].url)) {
         icon = await this.getFaviconUrl(updatedWebsite.url || websites[index].url);
+        icon = await this.storeIconLocally(icon, updatedWebsite.url || websites[index].url);
       }
       
       websites[index] = { 
         ...websites[index], 
         ...updatedWebsite,
-        icon: icon
+        icon: icon,
+        updatedAt: new Date().toISOString()
       };
       await setStoredData('top_websites', websites);
     }
@@ -352,6 +447,37 @@ class TopWebsite {
       console.warn('Failed to get favicon for URL:', url, error);
       // Return a default icon
       return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzM2Mzk0MiIvPgo8dGV4dCB4PSIxNiIgeT0iMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+8J+OqDwvdGV4dD4KPC9zdmc+';
+    }
+  }
+
+  async storeIconLocally(iconUrl, websiteUrl) {
+    try {
+      // If it's already a data URL (base64), return as is
+      if (iconUrl.startsWith('data:')) {
+        return iconUrl;
+      }
+
+      // Fetch the icon and convert to base64
+      const response = await fetch(iconUrl);
+      if (!response.ok) {
+        throw new Error('Failed to fetch icon');
+      }
+
+      const blob = await response.blob();
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => {
+          console.warn('Failed to convert icon to base64, using original URL');
+          resolve(iconUrl);
+        };
+        reader.readAsDataURL(blob);
+      });
+
+    } catch (error) {
+      console.warn('Failed to store icon locally:', error);
+      // Return original URL as fallback
+      return iconUrl;
     }
   }
 

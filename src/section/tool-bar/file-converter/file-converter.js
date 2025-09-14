@@ -2,7 +2,7 @@
  * FILE CONVERTER TOOL
  * Simple file conversion tool with grid view and sub-popups
  */
-import { popupManager } from '../../../../components/Popup/popup-manager.js';
+import { popupManager } from '../../../../assets/components/Popup/popup-manager.js';
 class FileConverterTool {
   constructor() {
     this.isInitialized = false;

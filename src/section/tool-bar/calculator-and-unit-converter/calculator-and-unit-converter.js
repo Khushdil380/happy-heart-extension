@@ -3,7 +3,7 @@
  * Clean, professional calculator with comprehensive unit conversion
  */
 
-import { popupManager } from '../../../../components/Popup/popup-manager.js';
+import { popupManager } from '../../../../assets/components/Popup/popup-manager.js';
 
 class CalculatorTool {
   constructor() {

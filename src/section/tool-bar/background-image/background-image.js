@@ -3,7 +3,7 @@
  * Handles background customization with the new unified system
  */
 
-import { popupManager } from '../../../../components/Popup/popup-manager.js';
+import { popupManager } from '../../../../assets/components/Popup/popup-manager.js';
 import { getStoredData, setStoredData, removeStoredData } from '../../../utils/storage.js';
 
 // Configuration

@@ -178,7 +178,7 @@
   }
 }
 
-/* Search Engine Popup Styles */
+/* Search Engine Popup Content Styles */
 .search-engine-popup-content {
   display: flex;
   flex-direction: column;
@@ -195,6 +195,7 @@
 .search-engine-option {
   display: flex;
   align-items: center;
+  padding: var(--spacing-md);
   cursor: pointer;
   transition: all var(--transition-fast);
   color: var(--primary-text-color);
@@ -214,6 +215,7 @@
   font-size: var(--font-size-lg);
   width: 24px;
   text-align: center;
+  margin-right: var(--spacing-sm);
 }
 
 .search-engine-option .engine-name {
@@ -226,10 +228,4 @@
   color: var(--secondary-text-color);
   font-weight: bold;
   font-size: var(--font-size-lg);
-}
-
-.popup-actions {
-  display: flex;
-  justify-content: center;
-  gap: var(--spacing-md);
 }

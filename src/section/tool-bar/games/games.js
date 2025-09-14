@@ -1,4 +1,4 @@
-import { popupManager } from '../../../../components/Popup/popup-manager.js';
+import { popupManager } from '../../../../assets/components/Popup/popup-manager.js';
 import { SnakeGame } from './snake/snake.js';
 import { TicTacToeGame } from './tic-tac-toe/tic-tac-toe.js';
 import { MemoryGame } from './memory/memory.js';

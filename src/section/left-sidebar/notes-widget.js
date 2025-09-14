@@ -4,7 +4,7 @@
  * Optimized for edge cases and improved reliability
  */
 
-import { popupManager } from '../../../../components/Popup/popup-manager.js';
+import { popupManager } from '../../../../assets/components/Popup/popup-manager.js';
 
 class NotesWidget {
   constructor() {

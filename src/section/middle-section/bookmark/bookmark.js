@@ -4,7 +4,7 @@
  * Features: Folder creation, bookmark management, Chrome bookmarks integration
  */
 
-import { popupManager } from '../../../../components/Popup/popup-manager.js';
+import { popupManager } from '../../../../assets/components/Popup/popup-manager.js';
 
 class Bookmark {
   constructor() {
@@ -407,7 +407,13 @@ class Bookmark {
         }
       });
 
-      // Action buttons
+      // Right-click context menu
+      item.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        this.showBookmarkContextMenu(parseInt(bookmarkId), e);
+      });
+
+      // Action buttons (keep for backward compatibility)
       const editBtn = item.querySelector('.edit-btn');
       const deleteBtn = item.querySelector('.delete-btn');
 
@@ -425,6 +431,76 @@ class Bookmark {
         });
       }
     });
+  }
+
+  showBookmarkContextMenu(bookmarkId, event) {
+    // Remove any existing context menu
+    const existingMenu = document.querySelector('.bookmark-context-menu');
+    if (existingMenu) {
+      existingMenu.remove();
+    }
+
+    // Create context menu
+    const menu = document.createElement('div');
+    menu.className = 'bookmark-context-menu';
+    menu.innerHTML = `
+      <div class="menu-item" data-action="edit" data-bookmark-id="${bookmarkId}">
+        <span>✏️</span>
+        <span>Edit</span>
+      </div>
+      <div class="menu-item" data-action="delete" data-bookmark-id="${bookmarkId}">
+        <span>🗑️</span>
+        <span>Delete</span>
+      </div>
+    `;
+
+    // Position menu at cursor position
+    menu.style.position = 'fixed';
+    menu.style.top = `${event.clientY}px`;
+    menu.style.left = `${event.clientX}px`;
+    menu.style.zIndex = '999999';
+    menu.style.pointerEvents = 'auto';
+
+    // Add to document
+    document.body.appendChild(menu);
+
+    // Add click handlers
+    menu.querySelectorAll('.menu-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        const action = item.dataset.action;
+        const bookmarkId = parseInt(item.dataset.bookmarkId);
+        
+        if (action === 'edit') {
+          this.editBookmark(bookmarkId);
+        } else if (action === 'delete') {
+          this.deleteBookmark(bookmarkId);
+        }
+        
+        menu.remove();
+      });
+    });
+
+    // Close menu when clicking outside or pressing escape
+    const closeMenu = (e) => {
+      if (!menu.contains(e.target)) {
+        menu.remove();
+        document.removeEventListener('click', closeMenu);
+        document.removeEventListener('keydown', handleEscape);
+      }
+    };
+    
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        menu.remove();
+        document.removeEventListener('click', closeMenu);
+        document.removeEventListener('keydown', handleEscape);
+      }
+    };
+    
+    setTimeout(() => {
+      document.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', handleEscape);
+    }, 100);
   }
 
   truncateUrl(url) {
@@ -467,9 +543,11 @@ class Bookmark {
     const popupBody = popup.body;
     const saveBtn = popupBody.querySelector('#save-folder-btn');
     const cancelBtn = popupBody.querySelector('#cancel-folder-btn');
+    const folderNameInput = popupBody.querySelector('#folder-name');
 
+    // Save button
     saveBtn.addEventListener('click', async () => {
-      const name = popupBody.querySelector('#folder-name').value.trim();
+      const name = folderNameInput.value.trim();
       if (name) {
         await this.saveFolder(name);
         popupManager.closePopup(popup);
@@ -479,9 +557,13 @@ class Bookmark {
       }
     });
 
+    // Cancel button
     cancelBtn.addEventListener('click', () => {
       popupManager.closePopup(popup);
     });
+
+    // Focus the input
+    setTimeout(() => folderNameInput.focus(), 100);
   }
 
   async saveFolder(folderName) {
@@ -623,12 +705,18 @@ ${folderBookmarks.map(bookmark => `
           <small class="form-help">Will be auto-filled from the website</small>
         </div>
         <div class="form-group">
-          <label for="bookmark-icon">Icon URL (optional):</label>
-          <input type="url" id="bookmark-icon" class="glass-input" placeholder="Will be auto-detected">
-          <small class="form-help">Leave empty to auto-detect favicon</small>
+          <label for="bookmark-icon-upload">Icon (optional):</label>
+          <div class="icon-upload-section">
+            <input type="file" id="bookmark-icon-upload" accept="image/*" style="display: none;">
+            <button type="button" id="upload-icon-btn" class="glass-button">📁 Upload Icon</button>
+            <div id="icon-preview" class="icon-preview" style="display: none;">
+              <img id="preview-image" src="" alt="Preview Icon" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+              <span id="remove-icon" style="cursor: pointer; margin-left: 8px; color: #ff4444;">✕</span>
+            </div>
+          </div>
+          <small class="form-help">💡 Upload a custom icon or let us auto-detect the favicon</small>
         </div>
         <div class="form-actions">
-          <button class="glass-button" id="fetch-info-btn">🔍 Auto-fill Info</button>
           <button class="glass-button" id="save-bookmark-btn">Save Bookmark</button>
           <button class="glass-button" id="cancel-bookmark-btn">Cancel</button>
         </div>
@@ -637,7 +725,7 @@ ${folderBookmarks.map(bookmark => `
 
     const popup = popupManager.createPopup(`Add Bookmark to ${this.currentFolder}`, content, {
       id: 'add-bookmark-popup',
-      size: 'medium'
+      size: 'small'
     });
 
     popupManager.openPopup(popup);
@@ -646,68 +734,101 @@ ${folderBookmarks.map(bookmark => `
     const popupBody = popup.body;
     const saveBtn = popupBody.querySelector('#save-bookmark-btn');
     const cancelBtn = popupBody.querySelector('#cancel-bookmark-btn');
-    const fetchBtn = popupBody.querySelector('#fetch-info-btn');
     const urlInput = popupBody.querySelector('#bookmark-url');
     const titleInput = popupBody.querySelector('#bookmark-title');
-    const iconInput = popupBody.querySelector('#bookmark-icon');
+    const uploadBtn = popupBody.querySelector('#upload-icon-btn');
+    const fileInput = popupBody.querySelector('#bookmark-icon-upload');
+    const iconPreview = popupBody.querySelector('#icon-preview');
+    const previewImage = popupBody.querySelector('#preview-image');
+    const removeIcon = popupBody.querySelector('#remove-icon');
 
-    // Auto-fetch info button
-    fetchBtn.addEventListener('click', async () => {
-      const url = urlInput.value.trim();
-      if (!url) {
-        alert('Please enter a URL first');
-        return;
-      }
+    let uploadedIconData = null;
 
-      if (!this.isValidUrl(url)) {
-        alert('Please enter a valid URL');
-        return;
-      }
+    // File upload handling
+    uploadBtn.addEventListener('click', () => {
+      fileInput.click();
+    });
 
-      fetchBtn.textContent = '🔄 Fetching...';
-      fetchBtn.disabled = true;
-
-      try {
-        const info = await this.fetchWebsiteInfo(url);
-        if (info.title) titleInput.value = info.title;
-        if (info.icon) iconInput.value = info.icon;
-      } catch (error) {
-        console.error('Failed to fetch website info:', error);
-        alert('Failed to fetch website information. Please fill manually.');
-      } finally {
-        fetchBtn.textContent = '🔍 Auto-fill Info';
-        fetchBtn.disabled = false;
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          uploadedIconData = e.target.result;
+          previewImage.src = uploadedIconData;
+          iconPreview.style.display = 'flex';
+          uploadBtn.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
       }
     });
 
-    saveBtn.addEventListener('click', async () => {
-      const title = titleInput.value.trim();
+    removeIcon.addEventListener('click', () => {
+      uploadedIconData = null;
+      iconPreview.style.display = 'none';
+      uploadBtn.style.display = 'block';
+      fileInput.value = '';
+    });
+
+    // Auto-fill title when URL is entered
+    urlInput.addEventListener('blur', async () => {
       const url = urlInput.value.trim();
-      let icon = iconInput.value.trim();
-      
-      if (!title || !url) {
-        alert('Please fill in all required fields');
-        return;
+      if (url && this.isValidUrl(url) && !titleInput.value.trim()) {
+        try {
+          const info = await this.fetchWebsiteInfo(url);
+          if (info.title) {
+            titleInput.value = info.title;
+          }
+        } catch (error) {
+          console.log('Could not auto-fetch title, user can enter manually');
+        }
       }
+    });
 
-      if (!this.isValidUrl(url)) {
-        alert('Please enter a valid URL');
-        return;
-      }
-
-      // Auto-fetch favicon if not provided
-      if (!icon) {
-        icon = this.getFaviconUrl(url);
-      }
-
-      await this.saveBookmark(this.currentFolder, { title, url, icon });
+    // Save button
+    saveBtn.addEventListener('click', async () => {
+      await this.saveBookmarkFromInputs(uploadedIconData);
       popupManager.closePopup(popup);
       await this.loadBookmarks();
     });
 
+    // Cancel button
     cancelBtn.addEventListener('click', () => {
       popupManager.closePopup(popup);
     });
+
+    // Focus the URL input
+    setTimeout(() => urlInput.focus(), 100);
+  }
+
+  async saveBookmarkFromInputs(uploadedIconData = null) {
+    const popupBody = document.querySelector('#add-bookmark-popup .popup-body');
+    if (!popupBody) return;
+
+    const titleInput = popupBody.querySelector('#bookmark-title');
+    const urlInput = popupBody.querySelector('#bookmark-url');
+
+    const title = titleInput.value.trim();
+    const url = urlInput.value.trim();
+    
+    if (!title || !url) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    if (!this.isValidUrl(url)) {
+      alert('Please enter a valid URL');
+      return;
+    }
+
+    // Use uploaded icon or auto-fetch favicon
+    let icon = uploadedIconData;
+    if (!icon) {
+      icon = await this.getFaviconUrl(url);
+      icon = await this.storeIconLocally(icon, url);
+    }
+
+    await this.saveBookmark(this.currentFolder, { title, url, icon });
   }
 
   isValidUrl(string) {
@@ -750,6 +871,37 @@ ${folderBookmarks.map(bookmark => `
       return `${domain}/favicon.ico`;
     } catch {
       return '../assets/icons/icon16.png';
+    }
+  }
+
+  async storeIconLocally(iconUrl, websiteUrl) {
+    try {
+      // If it's already a data URL (base64), return as is
+      if (iconUrl.startsWith('data:')) {
+        return iconUrl;
+      }
+
+      // Fetch the icon and convert to base64
+      const response = await fetch(iconUrl);
+      if (!response.ok) {
+        throw new Error('Failed to fetch icon');
+      }
+
+      const blob = await response.blob();
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => {
+          console.warn('Failed to convert icon to base64, using original URL');
+          resolve(iconUrl);
+        };
+        reader.readAsDataURL(blob);
+      });
+
+    } catch (error) {
+      console.warn('Failed to store icon locally:', error);
+      // Return original URL as fallback
+      return iconUrl;
     }
   }
 
@@ -814,8 +966,16 @@ ${folderBookmarks.map(bookmark => `
           <input type="url" id="bookmark-url" class="glass-input" value="${bookmark.url}" required>
         </div>
         <div class="form-group">
-          <label for="bookmark-icon">Icon URL:</label>
-          <input type="url" id="bookmark-icon" class="glass-input" value="${bookmark.icon}">
+          <label for="bookmark-icon-upload">Icon (optional):</label>
+          <div class="icon-upload-section">
+            <input type="file" id="bookmark-icon-upload" accept="image/*" style="display: none;">
+            <button type="button" id="upload-icon-btn" class="glass-button">📁 Upload Icon</button>
+            <div id="icon-preview" class="icon-preview">
+              <img id="preview-image" src="${bookmark.icon}" alt="Current Icon" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+              <span id="remove-icon" style="cursor: pointer; margin-left: 8px; color: #ff4444;">✕</span>
+            </div>
+          </div>
+          <small class="form-help">💡 Upload a custom icon or keep current icon</small>
         </div>
         <div class="form-actions">
           <button class="glass-button" id="update-bookmark-btn">Update Bookmark</button>
@@ -826,7 +986,7 @@ ${folderBookmarks.map(bookmark => `
 
     const popup = popupManager.createPopup('Edit Bookmark', content, {
       id: 'edit-bookmark-popup',
-      size: 'medium'
+      size: 'small'
     });
 
     popupManager.openPopup(popup);
@@ -835,24 +995,85 @@ ${folderBookmarks.map(bookmark => `
     const popupBody = popup.body;
     const updateBtn = popupBody.querySelector('#update-bookmark-btn');
     const cancelBtn = popupBody.querySelector('#cancel-bookmark-btn');
+    const titleInput = popupBody.querySelector('#bookmark-title');
+    const urlInput = popupBody.querySelector('#bookmark-url');
+    const uploadBtn = popupBody.querySelector('#upload-icon-btn');
+    const fileInput = popupBody.querySelector('#bookmark-icon-upload');
+    const iconPreview = popupBody.querySelector('#icon-preview');
+    const previewImage = popupBody.querySelector('#preview-image');
+    const removeIcon = popupBody.querySelector('#remove-icon');
 
-    updateBtn.addEventListener('click', async () => {
-      const title = popupBody.querySelector('#bookmark-title').value.trim();
-      const url = popupBody.querySelector('#bookmark-url').value.trim();
-      const icon = popupBody.querySelector('#bookmark-icon').value.trim() || '../images/default-icon.png';
-      
-      if (title && url) {
-        await this.updateBookmark(bookmarkId, { title, url, icon });
-        popupManager.closePopup(popup);
-        await this.loadBookmarks();
-      } else {
-        alert('Please fill in all required fields');
+    let uploadedIconData = null;
+    let hasIconChanged = false;
+
+    // File upload handling
+    uploadBtn.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          uploadedIconData = e.target.result;
+          previewImage.src = uploadedIconData;
+          hasIconChanged = true;
+          uploadBtn.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
       }
     });
 
+    removeIcon.addEventListener('click', () => {
+      uploadedIconData = null;
+      hasIconChanged = true;
+      // Hide preview and show upload button
+      iconPreview.style.display = 'none';
+      uploadBtn.style.display = 'block';
+      fileInput.value = '';
+    });
+
+    // Update button
+    updateBtn.addEventListener('click', async () => {
+      await this.updateBookmarkFromInputs(bookmarkId, uploadedIconData, hasIconChanged, bookmark.icon);
+      popupManager.closePopup(popup);
+      await this.loadBookmarks();
+    });
+
+    // Cancel button
     cancelBtn.addEventListener('click', () => {
       popupManager.closePopup(popup);
     });
+
+    // Focus the title input
+    setTimeout(() => titleInput.focus(), 100);
+  }
+
+  async updateBookmarkFromInputs(bookmarkId, uploadedIconData = null, hasIconChanged = false, originalIcon = null) {
+    const popupBody = document.querySelector('#edit-bookmark-popup .popup-body');
+    if (!popupBody) return;
+
+    const title = popupBody.querySelector('#bookmark-title').value.trim();
+    const url = popupBody.querySelector('#bookmark-url').value.trim();
+    
+    if (!title || !url) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    // Handle icon updates
+    let icon = uploadedIconData;
+    
+    // If icon is null (removed) or URL changed, fetch new favicon
+    if (!icon && hasIconChanged) {
+      icon = await this.getFaviconUrl(url);
+      icon = await this.storeIconLocally(icon, url);
+    } else if (!icon && !hasIconChanged) {
+      icon = originalIcon;
+    }
+    
+    await this.updateBookmark(bookmarkId, { title, url, icon });
   }
 
   async updateBookmark(bookmarkId, updatedBookmark) {

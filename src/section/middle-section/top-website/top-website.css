@@ -5,85 +5,80 @@
 .top-websites {
   background-color: var(--sub-section-bg-color);
   animation: fadeIn 0.5s ease-out;
-  padding: var(--medium-space);
-}
-
-.top-websites .section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.top-websites .section-header h3 {
-  color: var(--primary-text-color);
-  font-size: var(--font-size-lg);
-  font-weight: 600;
-  margin: 0;
+  padding: var(--small-space);
+  position: relative;
 }
 
 .websites-grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  gap: 4px;
+  gap: var(--small-space);
   max-width: 100%;
   width: 100%;
+}
+
+/* Add Website Plus Icon */
+.add-website-plus {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--button-bg-color);
+  color: var(--primary-text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xl);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border: 2px solid transparent;
+  z-index: 10;
+}
+
+.add-website-plus:hover {
+  background: var(--button-hover-bg-color);
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4);
+  border-color: var(--secondary-text-color);
 }
 
 .website-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 6px;
-  background: var(--glass-bg);
-  border-radius: 8px;
   cursor: pointer;
   transition: all var(--transition-normal);
   text-decoration: none;
   color: var(--primary-text-color);
   position: relative;
-  overflow: hidden;
-  border: 1px solid var(--glass-border);
-  min-height: 60px;
-}
-
-.website-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, transparent, rgba(5, 255, 238, 0.1), transparent);
-  opacity: 0;
-  transition: opacity var(--transition-normal);
-}
-
-.website-item:hover::before,
-.website-item.hovered::before {
-  opacity: 1;
+  overflow: visible;
+  
 }
 
 .website-item:hover,
 .website-item.hovered {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px var(--shadow-color);
-  border-color: var(--secondary-text-color);
+  transform: scale(1.1);
 }
 
 .website-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
-  margin-bottom: 2px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-bottom: 4px;
   object-fit: cover;
   position: relative;
   z-index: 1;
   transition: all var(--transition-normal);
+  border: 2px solid transparent;
 }
 
 .website-item:hover .website-icon,
 .website-item.hovered .website-icon {
-  transform: scale(1.1);
+  border-color: var(--secondary-text-color);
+  box-shadow: 0 0 15px rgba(5, 255, 238, 0.5);
 }
 
 .website-title {
@@ -98,6 +93,15 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 100%;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all var(--transition-normal);
+}
+
+.website-item:hover .website-title,
+.website-item.hovered .website-title {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Context Menu */
@@ -170,5 +174,18 @@
 
 .form-actions .glass-button {
   min-width: 120px;
+}
+
+/* Icon Upload Section */
+.icon-upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.icon-preview {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 

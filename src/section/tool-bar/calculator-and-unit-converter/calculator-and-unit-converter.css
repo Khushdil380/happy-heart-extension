@@ -13,8 +13,6 @@
 /* ===== TABS ===== */
 .calculator-tabs {
   display: flex;
-  background: var(--secondary-bg-color);
-  border-bottom: 1px solid var(--glass-border);
   padding: 0;
   margin: 0;
 }
@@ -228,39 +226,6 @@
   min-width: 200px;
 }
 
-.glass-input {
-  padding: var(--spacing-md);
-  background: var(--secondary-bg-color);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-sm);
-  color: var(--primary-text-color);
-  font-size: var(--font-size-base);
-  transition: border-color 0.2s ease;
-  pointer-events: auto;
-  user-select: text;
-  cursor: text;
-}
-
-.glass-input:focus {
-  outline: none;
-  border-color: var(--button-bg-color);
-}
-
-.glass-select {
-  padding: var(--spacing-md);
-  background: var(--secondary-bg-color);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-sm);
-  color: var(--primary-text-color);
-  font-size: var(--font-size-base);
-  cursor: pointer;
-  transition: border-color 0.2s ease;
-}
-
-.glass-select:focus {
-  outline: none;
-  border-color: var(--button-bg-color);
-}
 
 .converter-arrow {
   display: flex;

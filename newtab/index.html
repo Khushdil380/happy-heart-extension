@@ -6,7 +6,7 @@
     <title>Happy ❤️</title>
     
     <!-- Design System -->
-    <link rel="stylesheet" href="../components/styling/design-system.css">
+    <link rel="stylesheet" href="../assets/components/styling/design-system.css">
     
     <!-- Main Styles -->
     <link rel="stylesheet" href="style.css">
@@ -89,13 +89,10 @@
     <div id="middle-section" class="middle-section">
         <!-- Top Websites -->
         <div id="top-websites" class="top-websites glass-card">
-            <div class="section-header">
-                <h3>Top Websites</h3>
-                <button id="add-website-btn" class="glass-button">+ Add</button>
-            </div>
             <div class="websites-grid" id="websites-grid">
                 <!-- Dynamic content -->
             </div>
+            <div class="add-website-plus" id="add-website-plus" title="Add Website">+</div>
         </div>
         
         <!-- Search Box -->
@@ -117,7 +114,7 @@
                 </div>
                 <div class="bookmarks-actions">
                     <button id="add-folder-btn" class="glass-button bookmark-action-btn" title="Add Folder">📁</button>
-                    <button id="add-bookmark-btn" class="glass-button bookmark-action-btn" title="Add Bookmark">🔖</button>
+                    <button id="add-bookmark-btn" class="glass-button bookmark-action-btn" title="Add Bookmark">🧾</button>
                 </div>
             </div>
             <div class="bookmarks-content" id="bookmarks-content">
@@ -129,50 +126,46 @@
     <!-- Tool Bar -->
     <div id="tool-bar" class="tool-bar">
         <!-- Background Image Tool -->
-        <div class="tool-item" id="background-tool">
-            <div class="tool-icon">🎨</div>
-            <div class="tool-label">Background</div>
+        <div class="tool-item global-hover global-hover-rgb" id="background-tool">
+            <div class="tool-icon global-hover-icon">🎨</div>
         </div>
         
         <!-- File Converter Tool -->
-        <div class="tool-item" id="file-converter-tool">
-            <div class="tool-icon">📁</div>
-            <div class="tool-label">Converter</div>
+        <div class="tool-item global-hover global-hover-rgb" id="file-converter-tool">
+            <div class="tool-icon global-hover-icon">📁</div>
         </div>
         
         <!-- Games Tool -->
-        <div class="tool-item" id="games-tool">
-            <div class="tool-icon">🎮</div>
-            <div class="tool-label">Games</div>
+        <div class="tool-item global-hover global-hover-rgb" id="games-tool">
+            <div class="tool-icon global-hover-icon">🎮</div>
         </div>
         
         <!-- Calculator Tool -->
-        <div class="tool-item" id="calculator-tool">
-            <div class="tool-icon">🧮</div>
-            <div class="tool-label">Calculator</div>
+        <div class="tool-item global-hover global-hover-rgb" id="calculator-tool">
+            <div class="tool-icon global-hover-icon">🧮</div>
         </div>
     </div>
     
     <!-- Vertical Right Bar -->
     <div id="vertical-right-bar" class="vertical-right-bar">
         <div class="browser-shortcuts">
-            <button class="shortcut-btn" data-action="downloads" title="Downloads">
-                <div class="shortcut-icon">📥</div>
+            <button class="shortcut-btn global-hover global-hover-rgb" data-action="downloads" title="Downloads">
+                <div class="shortcut-icon global-hover-icon">📥</div>
             </button>
-            <button class="shortcut-btn" data-action="history" title="History">
-                <div class="shortcut-icon">🕒</div>
+            <button class="shortcut-btn global-hover global-hover-rgb" data-action="history" title="History">
+                <div class="shortcut-icon global-hover-icon">🕒</div>
             </button>
-            <button class="shortcut-btn" data-action="bookmarks" title="Bookmarks">
-                <div class="shortcut-icon">🔖</div>
+            <button class="shortcut-btn global-hover global-hover-rgb" data-action="bookmarks" title="Bookmarks">
+                <div class="shortcut-icon global-hover-icon">🔖</div>
             </button>
-            <button class="shortcut-btn" data-action="settings" title="Settings">
-                <div class="shortcut-icon">⚙️</div>
+            <button class="shortcut-btn global-hover global-hover-rgb" data-action="settings" title="Settings">
+                <div class="shortcut-icon global-hover-icon">⚙️</div>
             </button>
-            <button class="shortcut-btn" data-action="extensions" title="Extensions">
-                <div class="shortcut-icon">🧩</div>
+            <button class="shortcut-btn global-hover global-hover-rgb" data-action="extensions" title="Extensions">
+                <div class="shortcut-icon global-hover-icon">🧩</div>
             </button>
-            <button class="shortcut-btn" data-action="newtab" title="New Tab">
-                <div class="shortcut-icon">➕</div>
+            <button class="shortcut-btn global-hover global-hover-rgb" data-action="newtab" title="New Tab">
+                <div class="shortcut-icon global-hover-icon">➕</div>
             </button>
         </div>
     </div>

@@ -15,89 +15,21 @@
 
 .tool-item {
   display: flex;
-  flex-direction: column;
-  align-items: center;  
+  align-items: center;
+  justify-content: center;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   cursor: pointer;
-  transition: all var(--transition-normal);
   min-width: 50px;
-  position: relative;
-  overflow: hidden;
-  
+  min-height: 50px;
   background-color: var(--element-bg-color);
 }
 
-.tool-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, transparent, rgba(5, 255, 238, 0.1), transparent);
-  opacity: 0;
-  transition: opacity var(--transition-normal);
-}
-
-.tool-item:hover::before {
-  opacity: 1;
-}
-
-.tool-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px var(--shadow-color);
-  border-color: var(--secondary-text-color);
-}
-
-.tool-item:active {
-  transform: translateY(-2px);
-}
 
 .tool-icon {
   font-size: var(--font-size-2xl);
-  margin-bottom: var(--spacing-xs);
-  transition: all var(--transition-normal);
-  position: relative;
-  z-index: 1;
-}
-
-.tool-item:hover .tool-icon {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 8px var(--secondary-text-color));
-}
-
-.tool-label {
-  font-size: var(--font-size-xs);
-  text-align: center;
-  color: var(--primary-text-color);
-  font-weight: 500;
-  position: relative;
-  z-index: 1;
-  transition: all var(--transition-normal);
-}
-
-.tool-item:hover .tool-label {
-  color: var(--secondary-text-color);
-}
-
-/* Tool-specific styling */
-.tool-item#background-tool:hover {
-  background: linear-gradient(135deg, rgba(220, 20, 60, 0.2), rgba(255, 0, 46, 0.2));
-}
-
-.tool-item#file-converter-tool:hover {
-  background: linear-gradient(135deg, rgba(5, 255, 238, 0.2), rgba(14, 165, 233, 0.2));
-}
-
-.tool-item#games-tool:hover {
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(168, 85, 247, 0.2));
-}
-
-.tool-item#calculator-tool:hover {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(234, 179, 8, 0.2));
 }
 
 /* Animation delays for staggered appearance */
@@ -105,8 +37,4 @@
 .tool-item:nth-child(2) { animation-delay: 0.2s; }
 .tool-item:nth-child(3) { animation-delay: 0.3s; }
 .tool-item:nth-child(4) { animation-delay: 0.4s; }
-
-
-
-
 

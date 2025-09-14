@@ -4,7 +4,7 @@
  */
 
 import { getStoredData, setStoredData } from '../../../utils/storage.js';
-import { popupManager } from '../../../../components/Popup/popup-manager.js';
+import { popupManager } from '../../../../assets/components/Popup/popup-manager.js';
 
 class SearchBox {
   constructor() {
@@ -75,9 +75,6 @@ class SearchBox {
             </div>
           `).join('')}
         </div>
-        <div class="popup-actions">
-          <button class="glass-button" id="close-search-engine-popup">Close</button>
-        </div>
       </div>
     `;
 
@@ -90,7 +87,6 @@ class SearchBox {
 
     // Wire up event listeners
     const popupBody = popup.body;
-    const closeBtn = popupBody.querySelector('#close-search-engine-popup');
     
     // Add click handlers for search engine options
     popupBody.querySelectorAll('.search-engine-option').forEach(option => {
@@ -99,10 +95,6 @@ class SearchBox {
         this.selectSearchEngine(engine);
         popupManager.closePopup(popup);
       });
-    });
-
-    closeBtn.addEventListener('click', () => {
-      popupManager.closePopup(popup);
     });
   }
 

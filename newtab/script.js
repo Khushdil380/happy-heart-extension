@@ -4,7 +4,7 @@
  */
 
 // Import popup manager
-import { popupManager } from '../components/Popup/popup-manager.js';
+import { popupManager } from '../assets/components/Popup/popup-manager.js';
 
 // Import utilities
 import { getStoredData, setStoredData, removeStoredData } from '../src/utils/storage.js';

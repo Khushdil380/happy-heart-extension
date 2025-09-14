@@ -24,62 +24,18 @@
   height: 50px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  /* border: 1px solid var(--glass-border); */
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   cursor: pointer;
-  transition: all var(--transition-normal);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
   background-color: var(--element-bg-color);
 }
 
-.shortcut-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, transparent, rgba(5, 255, 238, 0.1), transparent);
-  opacity: 0;
-  transition: opacity var(--transition-normal);
-}
-
-.shortcut-btn:hover::before {
-  opacity: 1;
-}
-
-.shortcut-btn:hover {
-  transform: scale(1.1);
-  background: var(--hover-overlay);
-  border-color: var(--secondary-text-color);
-  box-shadow: 0 4px 15px var(--shadow-color);
-}
-
-.shortcut-btn:active {
-  transform: scale(1.05);
-}
-
-.shortcut-btn.clicked {
-  transform: scale(0.95);
-  /* background: var(--button-bg-color); */
-  border-color: var(--button-hover-bg-color);
-  box-shadow: 0 0 20px rgba(220, 20, 60, 0.5);
-}
 
 .shortcut-icon {
   font-size: var(--font-size-lg);
-  transition: all var(--transition-normal);
-  position: relative;
-  z-index: 1;
-}
-
-.shortcut-btn:hover .shortcut-icon {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 8px var(--secondary-text-color));
 }
 
 /* Tooltip styles */

@@ -197,7 +197,7 @@
   align-items: center;
   background: var(--primary-bg-color);
   border-radius: var(--border-radius-md);
-  border: 2px solid var(--button-bg-color);
+ 
   padding: var(--spacing-md);
   height: 100%;
 }

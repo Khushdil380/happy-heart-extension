@@ -6,6 +6,7 @@
 import { WeatherWidget } from './weather-widget.js';
 import { NotesWidget } from './notes-widget.js';
 import { getStoredData, setStoredData } from '../../utils/storage.js';
+import { popupManager } from '../../../assets/components/Popup/popup-manager.js';
 
 class LeftSidebar {
   constructor() {
@@ -119,10 +120,9 @@ class LeftSidebar {
     const currentQuoteText = document.getElementById('quote-text').textContent;
     const currentQuoteAuthor = document.getElementById('quote-author').textContent;
     
-    // Create edit quote sub-popup
+    // Create edit quote content for small popup
     const content = `
-      <div class="sub-popup-content">
-        <h3>Edit Quote of the Day</h3>
+      <div class="quote-modal-content">
         <div class="form-group">
           <label for="edit-quote-text">Quote Text:</label>
           <textarea id="edit-quote-text" class="glass-input" rows="4" placeholder="Enter your inspirational quote">${this.escapeHtml(currentQuoteText)}</textarea>
@@ -132,96 +132,45 @@ class LeftSidebar {
           <input type="text" id="edit-quote-author" class="glass-input" placeholder="Enter author name" value="${this.escapeHtml(currentQuoteAuthor)}">
         </div>
         <div class="form-actions">
-          <button id="save-quote-btn" class="glass-button">Save Quote</button>
-          <button id="cancel-quote-btn" class="glass-button secondary">Cancel</button>
+          <button class="glass-button" id="save-quote-btn">Save Quote</button>
+          <button class="glass-button" id="cancel-quote-btn">Cancel</button>
         </div>
       </div>
     `;
 
-    this.createQuoteSubPopup('Edit Quote', content, 'edit-quote-sub-popup');
-  }
+    const popup = popupManager.createPopup('Edit Quote of the Day', content, {
+      id: 'edit-quote-popup',
+      size: 'small'
+    });
 
-  createQuoteSubPopup(title, content, id) {
-    try {
-      // Create custom sub-popup overlay
-      const overlay = document.createElement('div');
-      overlay.className = 'sub-popup-overlay';
-      overlay.id = id;
-      
-      // Create sub-popup container
-      const container = document.createElement('div');
-      container.className = 'sub-popup-container';
-      
-      // Create header
-      const header = document.createElement('div');
-      header.className = 'sub-popup-header';
-      
-      const titleElement = document.createElement('h3');
-      titleElement.className = 'sub-popup-title';
-      titleElement.textContent = title;
-      
-      const closeButton = document.createElement('button');
-      closeButton.className = 'sub-popup-close';
-      closeButton.innerHTML = '×';
-      closeButton.addEventListener('click', () => overlay.remove());
-      
-      header.appendChild(titleElement);
-      header.appendChild(closeButton);
-      
-      // Create body
-      const body = document.createElement('div');
-      body.className = 'sub-popup-body';
-      body.innerHTML = content;
-      
-      // Assemble popup
-      container.appendChild(header);
-      container.appendChild(body);
-      overlay.appendChild(container);
-      
-      // Add to DOM
-      document.body.appendChild(overlay);
-      
-      // Add click outside to close
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-          overlay.remove();
-        }
-      });
+    popupManager.openPopup(popup);
 
-      // Add event listeners for save and cancel
-      setTimeout(() => {
-        const saveBtn = document.getElementById('save-quote-btn');
-        const cancelBtn = document.getElementById('cancel-quote-btn');
-        
-        if (saveBtn) {
-          saveBtn.addEventListener('click', () => {
-            this.saveQuote();
-          });
-        }
-        
-        if (cancelBtn) {
-          cancelBtn.addEventListener('click', () => {
-            overlay.remove();
-          });
-        }
-      }, 100);
-      
-    } catch (error) {
-      console.error('Error creating quote sub-popup:', error);
-      this.showAlert('Error opening quote editor');
-    }
-  }
+    // Wire up event listeners
+    const popupBody = popup.body;
+    const saveBtn = popupBody.querySelector('#save-quote-btn');
+    const cancelBtn = popupBody.querySelector('#cancel-quote-btn');
 
-  async saveQuote() {
-    try {
-      const quoteText = document.getElementById('edit-quote-text').value.trim();
-      const quoteAuthor = document.getElementById('edit-quote-author').value.trim();
+    saveBtn.addEventListener('click', async () => {
+      const quoteText = popupBody.querySelector('#edit-quote-text').value.trim();
+      const quoteAuthor = popupBody.querySelector('#edit-quote-author').value.trim();
       
       if (!quoteText || !quoteAuthor) {
         this.showAlert('Please enter both quote text and author');
         return;
       }
       
+      await this.saveQuote(quoteText, quoteAuthor);
+      popupManager.closePopup(popup);
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      popupManager.closePopup(popup);
+    });
+  }
+
+
+  async saveQuote(quoteText, quoteAuthor) {
+    try {
       // Save quote data
       const quoteData = {
         text: quoteText,
@@ -234,12 +183,6 @@ class LeftSidebar {
       // Update display
       document.getElementById('quote-text').textContent = quoteText;
       document.getElementById('quote-author').textContent = `- ${quoteAuthor}`;
-      
-      // Close popup
-      const overlay = document.querySelector('.sub-popup-overlay');
-      if (overlay) {
-        overlay.remove();
-      }
       
     } catch (error) {
       console.error('Error saving quote:', error);
