@@ -1,7 +1,7 @@
 /**
  * WEBSITE COLOR MODE CONTENT SCRIPT
  * Injects CSS into websites to apply color mode changes
- */
+*/
 
 // Signal that the content script is loaded
 window.websiteColorModeLoaded = true;

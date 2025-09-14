@@ -113,7 +113,7 @@ happy-heart-extension/
 - Handles global events
 - Performance monitoring
 
-#### 🎨 **Design System** (`components/styling/design-system.css`)
+#### 🎨 **Design System** (`assets/components/styling/design-system.css`)
 - CSS custom properties
 - Consistent color scheme
 - Typography scale

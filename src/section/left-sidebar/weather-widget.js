@@ -17,13 +17,14 @@ class WeatherWidget {
     this.isInitialized = false;
     this.autoRefreshTimer = null; // Store timer reference for cleanup
     this.eventListeners = new Map(); // Track event listeners for cleanup
+    this.autoRefreshEnabled = false; // Auto-refresh disabled by default
   }
 
   async init() {
     if (this.isInitialized) return;
     
     try {
-      // Load saved city and weather data
+      // Load saved city and weather data (cached only)
       await this.loadStoredData();
       
       // Setup event listeners with a small delay to ensure DOM is ready
@@ -31,14 +32,20 @@ class WeatherWidget {
         this.setupEventListeners();
       }, 100);
       
-      // Fetch initial weather data
-      await this.fetchWeatherData();
+      // Only display cached data, don't fetch new data automatically
+      if (this.weatherData) {
+        this.updateDisplay();
+        console.log('✅ Weather Widget initialized with cached data');
+      } else {
+        // Show placeholder if no cached data
+        this.showPlaceholder();
+        console.log('✅ Weather Widget initialized (no cached data)');
+      }
       
-      // Set up auto-refresh
-      this.setupAutoRefresh();
+      // Don't set up auto-refresh - only refresh on manual button click
+      // this.setupAutoRefresh(); // Commented out to prevent automatic refreshing
       
       this.isInitialized = true;
-      console.log('✅ Weather Widget initialized successfully');
       
     } catch (error) {
       console.error('❌ Failed to initialize Weather Widget:', error);
@@ -53,18 +60,19 @@ class WeatherWidget {
         this.currentCity = savedCity;
       }
 
+      // Load auto-refresh setting
+      const autoRefreshSetting = await this.getStoredData('weather_auto_refresh');
+      this.autoRefreshEnabled = autoRefreshSetting === true;
+
       // Load cached weather data
       const cachedData = await this.getStoredData('weather_data');
       const lastUpdate = await this.getStoredData('weather_last_update');
       
       if (cachedData && lastUpdate) {
-        const timeDiff = Date.now() - lastUpdate;
-        // Use cached data if it's less than 10 minutes old
-        if (timeDiff < this.updateInterval) {
-          this.weatherData = cachedData;
-          this.lastUpdate = lastUpdate;
-          this.updateDisplay();
-        }
+        // Use cached data regardless of age (since we're not auto-refreshing by default)
+        this.weatherData = cachedData;
+        this.lastUpdate = lastUpdate;
+        // Don't call updateDisplay here - let init() handle it
       }
     } catch (error) {
       console.error('Error loading stored weather data:', error);
@@ -134,10 +142,18 @@ class WeatherWidget {
     
     // Auto-refresh every 10 minutes
     this.autoRefreshTimer = setInterval(() => {
-      if (this.isInitialized) {
+      if (this.isInitialized && this.autoRefreshEnabled) {
         this.fetchWeatherData();
       }
     }, this.updateInterval);
+  }
+
+  clearAutoRefresh() {
+    // Clear existing timer if any
+    if (this.autoRefreshTimer) {
+      clearInterval(this.autoRefreshTimer);
+      this.autoRefreshTimer = null;
+    }
   }
 
   async fetchWeatherData() {
@@ -246,6 +262,18 @@ class WeatherWidget {
     if (description) description.textContent = errorMessage;
   }
 
+  showPlaceholder() {
+    const weatherIcon = document.getElementById('weather-icon');
+    const temperature = document.getElementById('temperature');
+    const location = document.getElementById('location');
+    const description = document.getElementById('weather-description');
+
+    if (weatherIcon) weatherIcon.textContent = '🌤️';
+    if (temperature) temperature.textContent = '--°C';
+    if (location) location.textContent = this.currentCity || 'Click refresh';
+    if (description) description.textContent = 'Click refresh to load weather';
+  }
+
   getWeatherIcon(weatherMain) {
     const iconMap = {
       'Clear': '☀️',
@@ -270,10 +298,16 @@ class WeatherWidget {
           <input type="text" id="city-input" class="glass-input" 
                  placeholder="Enter city name" value="${this.currentCity}">
         </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="auto-refresh-toggle" ${this.autoRefreshEnabled ? 'checked' : ''}>
+            Enable auto-refresh (every 10 minutes)
+          </label>
+        </div>
         <div class="weather-info-display">
           <p><strong>Current City:</strong> ${this.currentCity}</p>
           <p><strong>Last Update:</strong> ${this.lastUpdate ? new Date(this.lastUpdate).toLocaleTimeString() : 'Never'}</p>
-          <p><strong>Auto-refresh:</strong> Every 10 minutes</p>
+          <p><strong>Auto-refresh:</strong> ${this.autoRefreshEnabled ? 'Enabled' : 'Disabled (manual only)'}</p>
         </div>
         <div class="form-actions">
           <button id="save-city-btn" class="glass-button">Save City</button>
@@ -318,15 +352,32 @@ class WeatherWidget {
     const saveBtn = document.getElementById('save-city-btn');
     const cancelBtn = document.getElementById('cancel-city-btn');
     const cityInput = document.getElementById('city-input');
+    const autoRefreshToggle = document.getElementById('auto-refresh-toggle');
 
     if (saveBtn) {
       saveBtn.addEventListener('click', async () => {
         const newCity = cityInput.value.trim();
+        const autoRefreshEnabled = autoRefreshToggle ? autoRefreshToggle.checked : false;
+        
+        // Update city if changed
         if (newCity && newCity !== this.currentCity) {
           this.currentCity = newCity;
           await this.setStoredData('weather_city', this.currentCity);
           await this.fetchWeatherData();
         }
+        
+        // Update auto-refresh setting
+        if (this.autoRefreshEnabled !== autoRefreshEnabled) {
+          this.autoRefreshEnabled = autoRefreshEnabled;
+          await this.setStoredData('weather_auto_refresh', this.autoRefreshEnabled);
+          
+          if (this.autoRefreshEnabled) {
+            this.setupAutoRefresh();
+          } else {
+            this.clearAutoRefresh();
+          }
+        }
+        
         popupManager.closePopup();
       });
     }
@@ -373,10 +424,7 @@ class WeatherWidget {
   // Cleanup method to prevent memory leaks
   cleanup() {
     // Clear auto-refresh timer
-    if (this.autoRefreshTimer) {
-      clearInterval(this.autoRefreshTimer);
-      this.autoRefreshTimer = null;
-    }
+    this.clearAutoRefresh();
 
     // Remove event listeners
     this.eventListeners.forEach((listener, element) => {

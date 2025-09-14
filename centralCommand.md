@@ -19,11 +19,12 @@ happy-heart-extension/
 │   └── 📄 style.css                    # Global styles & imports
 ├── 📁 popup/                           # Extension popup (not used in main flow)
 ├── 📁 options/                         # Extension options page
-├── 📁 components/                      # Shared components
-│   ├── 📁 Popup/                       # Unified popup system
-│   │   └── 📄 popup-manager.js         # Popup creation & management
-│   └── 📁 styling/                     # Design system
-│       └── 📄 design-system.css        # CSS variables & theme definitions
+├── 📁 assets/                          # Static assets
+│   └── 📁 components/                  # Shared components
+│       ├── 📁 Popup/                   # Unified popup system
+│       │   └── 📄 popup-manager.js     # Popup creation & management
+│       └── 📁 styling/                 # Design system
+│           └── 📄 design-system.css    # CSS variables & theme definitions
 ├── 📁 src/                             # Main source code
 │   ├── 📁 section/                     # UI sections
 │   │   ├── 📁 left-sidebar/            # Left sidebar components
@@ -66,7 +67,7 @@ happy-heart-extension/
 
 ### 🎨 Design System
 
-#### `components/styling/design-system.css`
+#### `assets/components/styling/design-system.css`
 - **Purpose**: Centralized design tokens
 - **Key Variables**:
   - `--primary-color`, `--secondary-color` - Theme colors
@@ -270,7 +271,7 @@ console.log('💾 Data retrieved:', key, data);
 ### 🎨 Styling Guide
 
 #### CSS Architecture
-- **Design System**: `components/styling/design-system.css`
+- **Design System**: `assets/components/styling/design-system.css`
 - **Component Styles**: Each component has its own CSS file
 - **Global Styles**: `newtab/style.css` imports all component styles
 
@@ -350,7 +351,7 @@ console.log('💾 Data retrieved:', key, data);
 - Base layout styles
 - Animation definitions
 
-#### `components/styling/design-system.css`
+#### `assets/components/styling/design-system.css`
 - CSS custom properties
 - Theme color definitions
 - Spacing and typography scales
@@ -360,7 +361,7 @@ console.log('💾 Data retrieved:', key, data);
 ## 🎉 Quick Reference
 
 - **Main Entry**: `newtab/script.js`
-- **Styling**: `components/styling/design-system.css`
+- **Styling**: `assets/components/styling/design-system.css`
 - **Storage**: `src/utils/storage.js`
 - **Popups**: `components/Popup/popup-manager.js`
 - **Games**: `src/section/tool-bar/games/`

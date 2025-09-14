@@ -1,68 +1,35 @@
-/**
- * WEBSITE COLOR MODE POPUP
- * Manages website color mode settings and preferences
- */
-
 class WebsiteColorModePopup {
   constructor() {
     this.currentMode = 'default';
-    this.customColors = {
-      background: '#ffffff',
-      text: '#000000'
-    };
+    this.customColors = { background: '#ffffff', text: '#000000' };
     this.isInitialized = false;
-    this.isBraveBrowser = this.detectBraveBrowser();
-  }
-
-  detectBraveBrowser() {
-    // Check if we're running in Brave browser
-    return navigator.userAgent.includes('Brave') || 
-           window.navigator.brave !== undefined ||
-           window.chrome && window.chrome.runtime && window.chrome.runtime.onConnect;
+    this.isBraveBrowser = navigator.userAgent.includes('Brave') || window.navigator.brave !== undefined;
   }
 
   async init() {
     if (this.isInitialized) return;
     
     try {
-      // Load saved preferences
       await this.loadPreferences();
-      
-      // Setup event listeners
       this.setupEventListeners();
-      
-      // Update UI based on loaded preferences
       this.updateUI();
-      
-      // Show Brave warning if detected
-      if (this.isBraveBrowser) {
-        this.showBraveWarning();
-      }
-      
+      if (this.isBraveBrowser) this.showBraveWarning();
       this.isInitialized = true;
-      console.log('✅ Website Color Mode Popup initialized');
-      
     } catch (error) {
-      console.error('❌ Failed to initialize Website Color Mode Popup:', error);
+      console.error('Failed to initialize popup:', error);
     }
   }
 
   showBraveWarning() {
     const braveWarning = document.getElementById('brave-warning');
-    if (braveWarning) {
-      braveWarning.style.display = 'block';
-    }
+    if (braveWarning) braveWarning.style.display = 'block';
   }
 
   async loadPreferences() {
     return new Promise((resolve) => {
       chrome.storage.sync.get(['colorMode', 'customColors'], (result) => {
-        if (result.colorMode) {
-          this.currentMode = result.colorMode;
-        }
-        if (result.customColors) {
-          this.customColors = { ...this.customColors, ...result.customColors };
-        }
+        if (result.colorMode) this.currentMode = result.colorMode;
+        if (result.customColors) this.customColors = { ...this.customColors, ...result.customColors };
         resolve();
       });
     });
@@ -70,31 +37,19 @@ class WebsiteColorModePopup {
 
   async savePreferences() {
     return new Promise((resolve) => {
-      chrome.storage.sync.set({
-        colorMode: this.currentMode,
-        customColors: this.customColors
-      }, resolve);
+      chrome.storage.sync.set({ colorMode: this.currentMode, customColors: this.customColors }, resolve);
     });
   }
 
   setupEventListeners() {
     // Mode selection
-    const modeOptions = document.querySelectorAll('.mode-option');
-    modeOptions.forEach(option => {
-      option.addEventListener('click', (e) => {
-        const mode = option.dataset.mode;
-        this.selectMode(mode);
-      });
+    document.querySelectorAll('.mode-option').forEach(option => {
+      option.addEventListener('click', () => this.selectMode(option.dataset.mode));
     });
 
     // Radio button changes
-    const radioButtons = document.querySelectorAll('input[name="color-mode"]');
-    radioButtons.forEach(radio => {
-      radio.addEventListener('change', (e) => {
-        if (e.target.checked) {
-          this.selectMode(e.target.value);
-        }
-      });
+    document.querySelectorAll('input[name="color-mode"]').forEach(radio => {
+      radio.addEventListener('change', (e) => e.target.checked && this.selectMode(e.target.value));
     });
 
     // Custom color inputs
@@ -103,115 +58,66 @@ class WebsiteColorModePopup {
     const textColorInput = document.getElementById('text-color');
     const textColorText = document.getElementById('text-color-text');
 
-    if (bgColorInput) {
-      bgColorInput.addEventListener('input', (e) => {
+    bgColorInput?.addEventListener('input', (e) => {
+      this.customColors.background = e.target.value;
+      bgColorText.value = e.target.value;
+      this.updateColorPreview();
+    });
+
+    bgColorText?.addEventListener('input', (e) => {
+      if (this.isValidColor(e.target.value)) {
         this.customColors.background = e.target.value;
-        bgColorText.value = e.target.value;
+        bgColorInput.value = e.target.value;
         this.updateColorPreview();
-      });
-    }
+      }
+    });
 
-    if (bgColorText) {
-      bgColorText.addEventListener('input', (e) => {
-        if (this.isValidColor(e.target.value)) {
-          this.customColors.background = e.target.value;
-          bgColorInput.value = e.target.value;
-          this.updateColorPreview();
-        }
-      });
-    }
+    textColorInput?.addEventListener('input', (e) => {
+      this.customColors.text = e.target.value;
+      textColorText.value = e.target.value;
+      this.updateColorPreview();
+    });
 
-    if (textColorInput) {
-      textColorInput.addEventListener('input', (e) => {
+    textColorText?.addEventListener('input', (e) => {
+      if (this.isValidColor(e.target.value)) {
         this.customColors.text = e.target.value;
-        textColorText.value = e.target.value;
+        textColorInput.value = e.target.value;
         this.updateColorPreview();
-      });
-    }
-
-    if (textColorText) {
-      textColorText.addEventListener('input', (e) => {
-        if (this.isValidColor(e.target.value)) {
-          this.customColors.text = e.target.value;
-          textColorInput.value = e.target.value;
-          this.updateColorPreview();
-        }
-      });
-    }
+      }
+    });
 
     // Action buttons
-    const applyBtn = document.getElementById('apply-btn');
-    const applyAllBtn = document.getElementById('apply-all-btn');
-    const refreshBtn = document.getElementById('refresh-btn');
-    const diagnoseBtn = document.getElementById('diagnose-btn');
-    const resetBtn = document.getElementById('reset-btn');
+    document.getElementById('apply-btn')?.addEventListener('click', () => this.applyToCurrentTab());
+    document.getElementById('apply-all-btn')?.addEventListener('click', () => this.applyToAllTabs());
+    document.getElementById('refresh-btn')?.addEventListener('click', () => this.refreshPageAccess());
+    document.getElementById('diagnose-btn')?.addEventListener('click', () => this.diagnoseCurrentPage());
+    document.getElementById('reset-btn')?.addEventListener('click', () => this.resetSettings());
 
-    if (applyBtn) {
-      applyBtn.addEventListener('click', () => {
-        this.applyToCurrentTab();
-      });
-    }
-
-    if (applyAllBtn) {
-      applyAllBtn.addEventListener('click', () => {
-        this.applyToAllTabs();
-      });
-    }
-
-    if (refreshBtn) {
-      refreshBtn.addEventListener('click', () => {
-        this.refreshPageAccess();
-      });
-    }
-
-    if (diagnoseBtn) {
-      diagnoseBtn.addEventListener('click', () => {
-        this.diagnoseCurrentPage();
-      });
-    }
-
-    if (resetBtn) {
-      resetBtn.addEventListener('click', () => {
-        this.resetSettings();
-      });
-    }
+    // Troubleshoot button
+    const troubleshootBtn = document.getElementById('troubleshoot-btn');
+    const troubleshootContent = document.getElementById('troubleshoot-content');
+    troubleshootBtn?.addEventListener('click', () => {
+      troubleshootContent.style.display = troubleshootContent.style.display === 'none' ? 'block' : 'none';
+    });
   }
 
   selectMode(mode) {
     this.currentMode = mode;
     
     // Update radio button
-    const radio = document.querySelector(`input[name="color-mode"][value="${mode}"]`);
-    if (radio) {
-      radio.checked = true;
-    }
-
-    // Update visual selection
-    const modeOptions = document.querySelectorAll('.mode-option');
-    modeOptions.forEach(option => {
-      option.classList.remove('selected');
-      if (option.dataset.mode === mode) {
-        option.classList.add('selected');
-      }
-    });
+    document.querySelector(`input[name="color-mode"][value="${mode}"]`).checked = true;
 
     // Show/hide custom colors section
     const customSection = document.getElementById('custom-colors');
     if (customSection) {
-      if (mode === 'custom') {
-        customSection.style.display = 'block';
-        this.updateColorPreview();
-      } else {
-        customSection.style.display = 'none';
-      }
+      customSection.style.display = mode === 'custom' ? 'block' : 'none';
+      if (mode === 'custom') this.updateColorPreview();
     }
 
-    // Save preferences
     this.savePreferences();
   }
 
   updateUI() {
-    // Set the current mode
     this.selectMode(this.currentMode);
 
     // Update custom color inputs
@@ -221,13 +127,10 @@ class WebsiteColorModePopup {
     const textColorText = document.getElementById('text-color-text');
 
     if (bgColorInput && bgColorText) {
-      bgColorInput.value = this.customColors.background;
-      bgColorText.value = this.customColors.background;
+      bgColorInput.value = bgColorText.value = this.customColors.background;
     }
-
     if (textColorInput && textColorText) {
-      textColorInput.value = this.customColors.text;
-      textColorText.value = this.customColors.text;
+      textColorInput.value = textColorText.value = this.customColors.text;
     }
 
     this.updateColorPreview();

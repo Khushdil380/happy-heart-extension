@@ -3,80 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Heart Theme - Website Color Mode</title>
+  <title>Website Color Mode</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
   <div class="popup-container">
     <div class="popup-header">
-      <h1>Website Color Mode</h1>
-      <p>Customize how websites appear in your browser</p>
+      <div class="header-icon">🎨</div>
+      <div class="header-content">
+        <h1>Website Color Mode</h1>
+        <p>Transform any website's appearance instantly</p>
+      </div>
     </div>
     
     <div class="popup-content">
       <div class="color-mode-section">
-        <h2>Choose Color Mode</h2>
+        <h2>Color Mode</h2>
         
         <div class="mode-options">
-          <div class="mode-option" data-mode="default">
-            <div class="mode-icon">🎨</div>
-            <div class="mode-info">
-              <h3>Default</h3>
-              <p>Use website's original colors</p>
-            </div>
-            <div class="mode-radio">
-              <input type="radio" name="color-mode" value="default" id="mode-default">
-              <label for="mode-default"></label>
-            </div>
-          </div>
+          <label class="mode-option" data-mode="default">
+            <span class="mode-icon">🎨</span>
+            <span class="mode-text">Default</span>
+            <input type="radio" name="color-mode" value="default">
+          </label>
           
-          <div class="mode-option" data-mode="light">
-            <div class="mode-icon">☀️</div>
-            <div class="mode-info">
-              <h3>Light Mode</h3>
-              <p>Force light theme on websites</p>
-            </div>
-            <div class="mode-radio">
-              <input type="radio" name="color-mode" value="light" id="mode-light">
-              <label for="mode-light"></label>
-            </div>
-          </div>
+          <label class="mode-option" data-mode="light">
+            <span class="mode-icon">☀️</span>
+            <span class="mode-text">Light</span>
+            <input type="radio" name="color-mode" value="light">
+          </label>
           
-          <div class="mode-option" data-mode="dark">
-            <div class="mode-icon">🌙</div>
-            <div class="mode-info">
-              <h3>Dark Mode</h3>
-              <p>Force dark theme on websites</p>
-            </div>
-            <div class="mode-radio">
-              <input type="radio" name="color-mode" value="dark" id="mode-dark">
-              <label for="mode-dark"></label>
-            </div>
-          </div>
+          <label class="mode-option" data-mode="dark">
+            <span class="mode-icon">🌙</span>
+            <span class="mode-text">Dark</span>
+            <input type="radio" name="color-mode" value="dark">
+          </label>
           
-          <div class="mode-option" data-mode="custom">
-            <div class="mode-icon">🎯</div>
-            <div class="mode-info">
-              <h3>Custom Colors</h3>
-              <p>Choose your own background and text colors</p>
-            </div>
-            <div class="mode-radio">
-              <input type="radio" name="color-mode" value="custom" id="mode-custom">
-              <label for="mode-custom"></label>
-            </div>
-          </div>
+          <label class="mode-option" data-mode="custom">
+            <span class="mode-icon">🎯</span>
+            <span class="mode-text">Custom</span>
+            <input type="radio" name="color-mode" value="custom">
+          </label>
         </div>
         
         <div class="custom-colors-section" id="custom-colors" style="display: none;">
           <h3>Custom Colors</h3>
           <div class="color-picker-group">
             <div class="color-picker">
-              <label for="bg-color">Background Color:</label>
+              <label>Background:</label>
               <input type="color" id="bg-color" value="#ffffff">
               <input type="text" id="bg-color-text" placeholder="#ffffff" class="color-input">
             </div>
             <div class="color-picker">
-              <label for="text-color">Text Color:</label>
+              <label>Text:</label>
               <input type="color" id="text-color" value="#000000">
               <input type="text" id="text-color-text" placeholder="#000000" class="color-input">
             </div>
@@ -90,35 +69,43 @@
         </div>
         
         <div class="action-buttons">
-          <button id="apply-btn" class="apply-button">Apply to Current Tab</button>
-          <button id="apply-all-btn" class="apply-all-button">Apply to All Tabs</button>
-          <button id="refresh-btn" class="refresh-button">Refresh Page Access</button>
-          <button id="diagnose-btn" class="diagnose-button">Diagnose Page</button>
+          <button id="apply-btn" class="apply-button">Apply Current</button>
+          <button id="apply-all-btn" class="apply-all-button">Apply All</button>
+          <button id="refresh-btn" class="refresh-button">Refresh</button>
+          <button id="diagnose-btn" class="diagnose-button">Diagnose</button>
           <button id="reset-btn" class="reset-button">Reset</button>
         </div>
         
         <div class="status-message" id="status-message"></div>
         
         <div class="help-section">
-          <h3>Having trouble?</h3>
-          <p>If you're getting access errors, try these steps:</p>
-          <ul>
-            <li>Make sure you're on a regular website (not a browser page)</li>
-            <li>Click "Diagnose Page" to check what's wrong</li>
-            <li>Try refreshing the webpage and then the extension</li>
-            <li>Some websites have security restrictions that prevent color changes</li>
-          </ul>
+          <button id="troubleshoot-btn" class="troubleshoot-button">
+            ❓ Having trouble?
+          </button>
           
-          <div class="brave-warning" id="brave-warning" style="display: none;">
-            <h4>⚠️ Brave Browser Users:</h4>
-            <p>Brave browser has additional privacy protections that may block this extension. To enable it:</p>
-            <ol>
-              <li>Go to <strong>brave://settings/extensions</strong></li>
-              <li>Find "Happy Heart Theme" extension</li>
-              <li>Click "Details" → "Allow in private"</li>
-              <li>Enable "Allow access to file URLs" if needed</li>
-              <li>Try using the extension again</li>
-            </ol>
+          <div class="troubleshoot-content" id="troubleshoot-content" style="display: none;">
+            <div class="troubleshoot-body">
+              <p><strong>Having trouble?</strong></p>
+              <p>If you're getting access errors, try these steps:</p>
+              <ul>
+                <li>Make sure you're on a regular website (not a browser page)</li>
+                <li>Click "Diagnose Page" to check what's wrong</li>
+                <li>Try refreshing the webpage and then the extension</li>
+                <li>Some websites have security restrictions that prevent color changes</li>
+              </ul>
+              
+              <div class="brave-warning" id="brave-warning" style="display: none;">
+                <h4>⚠️ Brave Browser Users:</h4>
+                <p>Brave browser has additional privacy protections that may block this extension. To enable it:</p>
+                <ol>
+                  <li>Go to <strong>brave://settings/extensions</strong></li>
+                  <li>Find "Happy Heart Theme" extension</li>
+                  <li>Click "Details" → "Allow in private"</li>
+                  <li>Enable "Allow access to file URLs" if needed</li>
+                  <li>Try using the extension again</li>
+                </ol>
+              </div>
+            </div>
           </div>
         </div>
       </div>
