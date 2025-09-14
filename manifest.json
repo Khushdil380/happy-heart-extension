@@ -9,11 +9,14 @@
     "bookmarks",
     "tabs",
     "geolocation",
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "activeTab",
+    "scripting"
   ],
   
   "host_permissions": [
-    "https://api.openweathermap.org/*"
+    "https://api.openweathermap.org/*",
+    "<all_urls>"
   ],
   
   "chrome_url_overrides": {
@@ -32,6 +35,14 @@
   },
   
   "options_page": "options/options.html",
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["popup/content-script.js"],
+      "run_at": "document_start"
+    }
+  ],
   
   "web_accessible_resources": [
     {
