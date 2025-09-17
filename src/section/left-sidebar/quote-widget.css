@@ -1,0 +1,78 @@
+/* ========================================
+   QUOTE WIDGET STYLES
+   ======================================== */
+
+#quote-widget .widget-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.quote-text {
+  font-size: var(--font-size-sm);
+  color: var(--primary-text-color);
+  line-height: 1.6;
+  font-style: italic;
+  text-align: center;
+  padding: var(--spacing-sm);
+  background: var(--glass-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+}
+
+.quote-author {
+  font-size: var(--font-size-xs);
+  color: var(--secondary-text-color);
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Ensure quote widget button is clickable */
+#edit-quote-btn {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto !important;
+  cursor: pointer;
+}
+
+/* Quote Modal Content Styles */
+.quote-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  max-width: 500px;
+}
+
+.quote-modal-content .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.quote-modal-content .form-group label {
+  color: var(--primary-text-color);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.quote-modal-content .form-group .glass-input {
+  width: 100%;
+  resize: vertical;
+}
+
+.quote-modal-content .form-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+}
+
+.quote-modal-content .form-actions .glass-button {
+  min-width: 120px;
+}
+
+/* Responsive adjustments for quote widget */
+@media (max-width: 480px) {
+  .quote-text {
+    font-size: var(--font-size-xs);
+  }
+}

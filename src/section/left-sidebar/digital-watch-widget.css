@@ -1,0 +1,49 @@
+/* ========================================
+   DIGITAL WATCH WIDGET STYLES
+   ======================================== */
+
+#digital-watch .widget-content {
+  text-align: center;
+}
+
+.time-display {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: var(--secondary-text-color);
+  margin-bottom: var(--spacing-sm);
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 10px rgba(5, 255, 238, 0.3);
+}
+
+.date-display {
+  font-size: var(--font-size-sm);
+  color: var(--primary-text-color);
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+/* Responsive adjustments for digital watch */
+@media (max-width: 1200px) {
+  .time-display {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .time-display {
+    font-size: var(--font-size-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .time-display {
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .time-display {
+    text-shadow: none;
+  }
+}

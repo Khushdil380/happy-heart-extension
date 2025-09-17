@@ -7,6 +7,7 @@
   animation: fadeIn 0.5s ease-out;
   padding: var(--small-space);
   position: relative;
+  min-height: 60px;
 }
 
 .websites-grid {

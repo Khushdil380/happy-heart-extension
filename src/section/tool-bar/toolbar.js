@@ -5,7 +5,8 @@
 
 import { initBackgroundTool } from './background-image/background-image.js';
 import { initCalculatorTool } from './calculator-and-unit-converter/calculator-and-unit-converter.js';
-import { initFileConverterTool } from './file-converter/file-converter.js';
+import { initTimerTool } from './timer/timer.js';
+import { initDownloadTool } from './download/download.js';
 import GamesTool from './games/games.js';
 
 class ToolBar {
@@ -45,9 +46,13 @@ class ToolBar {
       const calculatorTool = await initCalculatorTool();
       this.registerTool('calculator', calculatorTool);
       
-      // Initialize file converter tool
-      const fileConverterTool = await initFileConverterTool();
-      this.registerTool('file-converter', fileConverterTool);
+      // Initialize timer tool
+      const timerTool = await initTimerTool();
+      this.registerTool('timer', timerTool);
+      
+      // Initialize download tool
+      const downloadTool = await initDownloadTool();
+      this.registerTool('download', downloadTool);
       
       // Initialize games tool
       const gamesTool = new GamesTool();
@@ -80,7 +85,8 @@ class ToolBar {
     // Add click handlers for each tool
     const tools = [
       { id: 'background-tool', name: 'background' },
-      { id: 'file-converter-tool', name: 'file-converter' },
+      { id: 'timer-tool', name: 'timer' },
+      { id: 'download-tool', name: 'download' },
       { id: 'games-tool', name: 'games' },
       { id: 'calculator-tool', name: 'calculator' }
     ];
